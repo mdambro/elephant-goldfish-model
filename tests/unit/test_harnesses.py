@@ -28,7 +28,7 @@ EXPECTED_SKILLS = {
 }
 REVIEWERS = (
     "codebase_details", "comprehension", "design_critic",
-    "implementation_readiness", "structural", "style", "zoom_out",
+    "implementation_readiness", "rust", "structural", "style", "zoom_out",
 )
 
 

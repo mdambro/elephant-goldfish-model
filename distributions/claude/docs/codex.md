@@ -10,7 +10,7 @@ SPDX-License-Identifier: Apache-2.0
 Install the whole plugin, including its personas and standards:
 
 ```sh
-codex plugin marketplace add google/elephant-goldfish-model
+codex plugin marketplace add mdambro/elephant-goldfish-model
 codex plugin add egm@egm
 ```
 

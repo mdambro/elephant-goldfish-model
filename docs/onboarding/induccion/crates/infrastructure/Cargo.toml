@@ -1,0 +1,20 @@
+[package]
+name = "infrastructure"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+domain.workspace = true
+application.workspace = true
+proto.workspace = true
+anyhow.workspace = true
+axum.workspace = true
+deadpool-postgres.workspace = true
+serde.workspace = true
+tokio.workspace = true
+tokio-postgres.workspace = true
+tonic.workspace = true
+
+[lints]
+workspace = true

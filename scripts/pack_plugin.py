@@ -16,7 +16,7 @@ SHARED = (
     "skills/*/references/*.json", "agents/*.md", "resources/*.md",
     "resources/document_standards/*.md", "docs/index.md", "docs/getting_started.md",
     "docs/harnesses.md", "docs/claude.md", "docs/codex.md", "docs/faq.md",
-    "docs/privacy.md", "docs/releases.md",
+    "docs/privacy.md", "docs/releases.md", "docs/rust.md",
     "assets/*.svg", "assets/*.png", "docs/assets/*.svg", "docs/assets/*.png",
 )
 HOST = {
@@ -43,13 +43,13 @@ REQUIRED_SHARED = (
 ) + tuple(
     f"agents/{name}.md" for name in (
         "bootstrap_orchestrator", "codebase_details", "comprehension",
-        "design_critic", "implementation_readiness", "structural", "style",
+        "design_critic", "implementation_readiness", "rust", "structural", "style",
         "synthesizer", "zoom_out",
     )
 ) + tuple(
     f"resources/document_standards/{name}-standard.md" for name in (
         "feature-spec", "heilmeier", "implementation-readiness",
-        "re-implementation", "zoom-out",
+        "re-implementation", "rust", "zoom-out",
     )
 )
 

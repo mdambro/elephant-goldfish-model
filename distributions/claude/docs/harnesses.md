@@ -8,16 +8,16 @@ text.
 
 | Harness | Install |
 | --- | --- |
-| Antigravity CLI | `agy plugin install https://github.com/google/elephant-goldfish-model` |
+| Antigravity CLI | `agy plugin install https://github.com/mdambro/elephant-goldfish-model` |
 | Antigravity App | Run `/plugin` or see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
 | Antigravity for IDEs | Run `/plugin` or see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
 | Antigravity IDE (standalone) | Not supported; see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
-| Claude Code | `claude plugin marketplace add google/elephant-goldfish-model && claude plugin install egm@egm` |
-| Claude Cowork | Install from claude.ai/plugins or the Cowork plugin panel via marketplace `google/elephant-goldfish-model` |
-| Codex | `codex plugin marketplace add google/elephant-goldfish-model && codex plugin add egm@egm` |
-| ChatGPT | Personal testing: Plugins > Add > Upload plugin archive; see [packaging](codex.md#chatgpt). Workspace import: Admin > Plugins > Add > Import marketplace, repo URL `https://github.com/google/elephant-goldfish-model`, path `.agents/plugins` |
-| omp | `omp plugin marketplace add google/elephant-goldfish-model && omp plugin install egm@egm` |
-| Muse | `git clone https://github.com/google/elephant-goldfish-model.git && muse plugins install ./elephant-goldfish-model --scope user && muse plugins approve egm` |
+| Claude Code | `claude plugin marketplace add mdambro/elephant-goldfish-model && claude plugin install egm@egm` |
+| Claude Cowork | Install from claude.ai/plugins or the Cowork plugin panel via marketplace `mdambro/elephant-goldfish-model` |
+| Codex | `codex plugin marketplace add mdambro/elephant-goldfish-model && codex plugin add egm@egm` |
+| ChatGPT | Personal testing: Plugins > Add > Upload plugin archive; see [packaging](codex.md#chatgpt). Workspace import: Admin > Plugins > Add > Import marketplace, repo URL `https://github.com/mdambro/elephant-goldfish-model`, path `.agents/plugins` |
+| omp | `omp plugin marketplace add mdambro/elephant-goldfish-model && omp plugin install egm@egm` |
+| Muse | `git clone https://github.com/mdambro/elephant-goldfish-model.git && muse plugins install ./elephant-goldfish-model --scope user && muse plugins approve egm` |
 
 Install the whole plugin. Skill-only installers that copy `skills/` alone
 break EGM, because the skills read `agents/` and
@@ -25,8 +25,8 @@ break EGM, because the skills read `agents/` and
 
 ### Antigravity App and Antigravity for IDEs
 
-- **Antigravity App**: Run `/plugin`, ask the agent `Install https://github.com/google/elephant-goldfish-model`, or manually install into `~/.gemini/config/plugins/egm/` using the commands below.
-- **Antigravity for IDEs (Extension for Visual Studio Code)**: Run `/plugin`, ask the agent `Install https://github.com/google/elephant-goldfish-model`, or manually install into `~/.gemini/config/plugins/egm/` using the commands below.
+- **Antigravity App**: Run `/plugin`, ask the agent `Install https://github.com/mdambro/elephant-goldfish-model`, or manually install into `~/.gemini/config/plugins/egm/` using the commands below.
+- **Antigravity for IDEs (Extension for Visual Studio Code)**: Run `/plugin`, ask the agent `Install https://github.com/mdambro/elephant-goldfish-model`, or manually install into `~/.gemini/config/plugins/egm/` using the commands below.
 - **Antigravity IDE (Standalone)**: Not supported at this time. Although the plugin and skills load from `~/.gemini/config/plugins/egm/`, standalone Antigravity IDE (tested on macOS and Linux) does not expose the fresh-context subagent tool (`invoke_subagent`) required for Goldfish reviews (`/egm-brainstorm` and `/egm-review`).
 
 The Antigravity App and Antigravity for IDEs share the global plugin directory
@@ -36,7 +36,7 @@ The Antigravity App and Antigravity for IDEs share the global plugin directory
 remove `~/.gemini/config/plugins/egm` first when updating):
 
 ```sh
-git clone https://github.com/google/elephant-goldfish-model.git
+git clone https://github.com/mdambro/elephant-goldfish-model.git
 cd elephant-goldfish-model
 mkdir -p ~/.gemini/config/plugins/egm
 cp -R plugin.json README.md LICENSE skills agents resources docs assets ~/.gemini/config/plugins/egm/
