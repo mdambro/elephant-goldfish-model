@@ -95,8 +95,19 @@ applies, with its reason. Use a pattern only when the design states its
 problem.
 -->
 
-*   **Crates & Modules**: [Workspace layout and dependency direction, or a
-    single crate and why.]
+*   **Crates & Layers**: [Default workspace `domain`, `application`,
+    `infrastructure` (plus `proto` for gRPC and one crate per frontend), or a
+    reduced layout and why. Crate of each new type.]
+*   **Delivery**: [REST with axum, gRPC with tonic and the `proto` crate,
+    Tauri commands, Dioxus server functions, or a combination; ports and
+    listeners.]
+*   **Responsibilities**: [One struct per use case (`execute`) and per
+    validation rule; adapters only translate.]
+*   **Persistence**: [`tokio-postgres` with `deadpool-postgres`, transaction
+    sharing across repositories, migrations tool.]
+*   **Validation**: [Domain newtype constructors for format invariants;
+    `validations_rs` rules for business rules, sync before async; mapping of
+    rule codes to the transport.]
 *   **Domain Model**: [Enums for closed sets and runtime states, newtypes for
     validated values, typestate for fixed in-process flows.]
 *   **Errors**: [Error type per layer, typed versus opaque, and where errors

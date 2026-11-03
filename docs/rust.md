@@ -13,7 +13,26 @@ to use it.
 | `/egm-review-loop` | Accepts `rust` as a reviewer and `rust-standard` as a standard. |
 
 The Rust Standard checks two directions: Rust decisions left open, and patterns
-used without a problem that needs them.
+used without a problem that needs them. It also sets the defaults below; a
+design may change them, but it must say why.
+
+## Defaults
+
+*   **Layout**: a Cargo workspace with `domain`, `application`, and
+    `infrastructure` crates, plus a `proto` crate when the service uses gRPC
+    instead of (or next to) REST, and one crate per Tauri or Dioxus frontend.
+    Dependencies point inward.
+*   **Single responsibility**: one struct per use case with one `execute`
+    method, one struct per validation rule, one repository trait per
+    aggregate, adapters that only translate.
+*   **Stack**: `tokio`, `axum` 0.8, `tonic` 0.14 with `prost`,
+    `tokio-postgres` with `deadpool-postgres`, Tauri 2, Dioxus 0.7,
+    `thiserror` (and `anyhow` only in `main`).
+*   **Validation**: domain newtypes for format invariants; `validations_rs`
+    rules in `application` for business rules.
+
+The full rules are in Sections 5 and 6 of the
+[Rust Standard](../resources/document_standards/rust-standard.md).
 
 ## Use Another Language
 
@@ -35,14 +54,19 @@ implementation agent:
 ## Rust Conventions
 
 - Language: Rust, edition 2021, MSRV <version>.
-- Workspace: crates/domain (no I/O dependencies), crates/application,
-  crates/infrastructure (binary). Dependencies point inward only.
-- Errors: thiserror enums per crate; anyhow only in the binary's main.
-- Async: tokio; shared ports are traits with Send + Sync.
+- Workspace: crates/domain (no I/O), crates/application (use cases, ports,
+  validations_rs rules), crates/infrastructure (axum or tonic adapters,
+  tokio-postgres repositories, main), crates/proto (only with gRPC).
+  Dependencies point inward only; prost types never leave infrastructure.
+- One responsibility per type: one use case struct with one `execute`, one
+  validation rule per struct, one file per public type.
+- Errors: thiserror enums per crate; anyhow only in main.
+- Async: tokio; ports are traits with Send + Sync.
+- Database: tokio-postgres + deadpool-postgres; $1 parameters only.
 - Lints: configured in [workspace.lints]; CI runs
   cargo fmt --check, cargo clippy --all-targets --all-features -- -D warnings,
   and cargo test --all-features.
-- Follow the EGM Rust Standard for patterns and anti-patterns.
+- Follow the EGM Rust Standard for patterns, anti-patterns, and the stack.
 ```
 
 For a project context skill (see [Getting Started](getting_started.md)), link

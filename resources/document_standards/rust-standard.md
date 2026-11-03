@@ -1,7 +1,9 @@
 # Rust Standard
 
 This standard defines the quality bar for designs and implementation plans
-that target Rust. In this distribution of EGM, Rust is the default language.
+that target Rust. In this distribution of EGM, Rust is the default language,
+Clean Architecture (Section 5) is the default layout, and Section 6 lists the
+default stack.
 
 ## Core Principle
 
@@ -72,6 +74,21 @@ They are architecture, so they belong above the implementation plan.
 *   **Dependencies**: Prefer the standard library and established crates over
     custom code. Justify each new crate by need, maintenance activity, and
     license. Do not add a crate for a few lines of code.
+*   **Single Responsibility (Author Preference)**: Each type has one reason
+    to change. One use case is one struct with one public `execute` method.
+    One validation rule is one struct. One repository trait serves one
+    aggregate. Adapters (HTTP handlers, gRPC services, Tauri commands, Dioxus
+    server functions) only translate between the transport and a use case.
+    Each public type lives in its own file, grouped in modules by role, as
+    packages are grouped in Kotlin. A use case that grows a second
+    responsibility is split, and the two are composed by a third use case or
+    by the caller.
+*   **Validation**: Format invariants of a single value (an email, a code, a
+    range) belong to a domain newtype with a fallible constructor
+    (`TryFrom`, `FromStr`, or `parse`) and the domain error type. Business
+    rules that combine fields, depend on state, or need I/O belong to the
+    application layer as rules of the `validations_rs` crate (Section 6), run
+    at the start of the use case. State which rule protects each invariant.
 
 ## 2. Implementation-Level Decisions (Zero-Decision Rust)
 
@@ -112,6 +129,9 @@ applicable:
 *   **Naming**: Follow the Rust API Guidelines: `snake_case` for functions and
     modules, `UpperCamelCase` for types, and the `as_` (cheap borrow), `to_`
     (expensive conversion), and `into_` (consumes `self`) prefixes.
+
+*   **Layering**: State which crate (Section 5) each new type belongs to, and
+    show that no dependency points outward.
 
 ## 3. Pattern Selection
 
@@ -162,8 +182,113 @@ Report these as findings:
     runtime state, or crates split with no boundary reason. This overlaps the
     Zoom-Out Standard; report it here only for Rust-specific forms.
 *   **Blocking Inside Async**: Blocking calls on an async executor thread.
+*   **Multi-Responsibility Types**: A use case, service, or "manager" with
+    several public operations, or a rule that checks unrelated conditions.
+*   **Logic in Adapters**: Business rules or validation inside axum handlers,
+    tonic services, Tauri commands, Dioxus components, or server functions.
+*   **Leaking Transport or Storage Types**: `prost` messages, axum extractors,
+    `tokio_postgres::Row`, Tauri or Dioxus types used in `domain` or
+    `application`. Map them to domain types in the adapter, with `TryFrom`
+    where the conversion can fail.
 
-## 5. Severity Guide
+## 5. Default Architecture
+
+A service is a Cargo workspace with these crates. Use fewer only when the
+document justifies it (Zoom-Out Standard, YAGNI).
+
+| Crate | Contains | May depend on |
+| --- | --- | --- |
+| `domain` | Entities, value objects (newtypes), domain enums and states, domain error enums. Pure logic, no I/O. | `std`, small pure crates (for example `thiserror`, `uuid`) |
+| `application` | One struct per use case with an `execute` method; ports (repository and gateway traits with `Send + Sync`); command and result types; business-rule validations (`validations_rs`); business-rule configuration as a struct injected with `Arc`; application error enums. | `domain`, `validations_rs`, `thiserror`; no transport, storage, or UI crates |
+| `proto` | Only when gRPC is chosen. The `.proto` files, a `build.rs` that runs `tonic-prost-build`, and the generated code, re-exported. No hand-written logic. | `tonic`, `prost`, `tonic-prost`; build dependency `tonic-prost-build` |
+| `infrastructure` | Adapters and the composition root: axum routers and handlers or tonic service implementations, `tokio-postgres` repositories, mapping between transport or storage types and domain types, error mapping to HTTP or gRPC status, configuration loading, `main`. | `application`, `domain`, `proto` (when present), the stack crates |
+
+Rules:
+
+*   **Dependencies point inward**: `infrastructure` → `application` →
+    `domain`. `proto` is used only by `infrastructure` and by client crates.
+    Generated `prost` types never appear in `application` or `domain`.
+*   **REST or gRPC**: The document states the transport. REST uses axum
+    handlers. gRPC adds the `proto` crate and tonic services. Both may be
+    served from one process; the document states whether they share a port
+    (tonic `Routes::into_axum_router`) or use separate listeners.
+*   **Contracts**: For gRPC, the `.proto` files are the public contract.
+    Changes follow protobuf compatibility rules: never reuse or renumber a
+    field; mark removed fields `reserved`.
+*   **Frontends**: A Tauri or Dioxus app is its own crate in the workspace. It
+    is a delivery adapter, like `infrastructure`: Tauri commands and Dioxus
+    server functions call use cases and contain no business rules. A frontend
+    that runs on another machine calls the API (REST or gRPC) through a
+    client and does not depend on `application`. Dioxus web (WASM) clients
+    need gRPC-Web for gRPC.
+
+## 6. Default Stack
+
+Versions as of November 2026; the document states the exact version
+requirements it uses. A different crate for one of these roles is an
+architecture decision for the author.
+
+*   **Async runtime: `tokio` 1.x.** Binaries enable `rt-multi-thread` and
+    `macros` (or `full`); libraries enable only the features they use.
+    Blocking calls go to `spawn_blocking`; CPU-bound work goes to a dedicated
+    pool (for example `rayon`). Prefer `std::sync::Mutex` for shared state;
+    use `tokio::sync::Mutex` only when a guard is held across `.await`.
+*   **HTTP: `axum` 0.8** with `tower-http` middleware (tracing, timeouts,
+    CORS). Share state with the `State` extractor (type-checked at compile
+    time), not `Extension` (fails at runtime with 500); wrap shared state in
+    `Arc`; give handlers sub-states with `FromRef`. Handlers return
+    `Result<T, ApiError>` where `ApiError` implements `IntoResponse` and maps
+    every application error variant to a status code. Body extractors (`Json`)
+    come last. Path parameters use `/{id}`.
+*   **gRPC: `tonic` 0.14 with `prost` 0.14.** Code generation runs in the
+    `proto` crate's `build.rs` with `tonic-prost-build`, which needs `protoc`
+    on the build machine (state how it is installed in CI). Service
+    implementations live in `infrastructure` and map application errors to
+    `tonic::Status` codes (for example `InvalidArgument`,
+    `FailedPrecondition`, `NotFound`, `Internal`).
+*   **PostgreSQL: `tokio-postgres` 0.7.** `connect` returns a `Client` and a
+    `Connection`; the `Connection` must be spawned. `tokio-postgres` has no
+    pool: use `deadpool-postgres` (or state another pool). Queries use `$1`
+    parameters, never string formatting. Enable only the type features in
+    use (`with-uuid-1`, `with-chrono-0_4`, `with-serde_json-1`,
+    `with-time-0_3`). TLS uses `postgres-native-tls` or `postgres-openssl`, or
+    the document states why `NoTls` is safe. `Transaction` rolls back on drop
+    unless `commit` is called, and it borrows the `Client` mutably: the
+    document states how a use case that writes through several repositories
+    shares one transaction (for example a unit-of-work port), and which tool
+    runs schema migrations.
+*   **Desktop and mobile: Tauri 2.** Commands live in a `commands` module
+    (`pub` there; commands in `lib.rs` cannot be `pub`) and are all registered
+    in one `generate_handler!` call. Async commands with borrowed arguments
+    (`&str`, `State<'_, T>`) return `Result`. Command errors are a `thiserror`
+    enum with a `Serialize` implementation. Managed state is registered with
+    `manage` and needs no `Arc`; use a type alias, because a wrong `State<T>`
+    type compiles and fails at runtime. Capabilities grant each window only
+    the permissions it needs; custom commands are open to every window unless
+    restricted in `build.rs`.
+*   **Rust UI: Dioxus 0.7.** Fullstack apps declare `web`, `desktop`,
+    `mobile`, and `server` features; server-only dependencies (`tokio`,
+    database clients, `application`) are optional and enabled by `server`,
+    and their code is behind `#[cfg(feature = "server")]`. Server functions
+    are axum endpoints: they call use cases and return errors the client can
+    match (`ServerFnError` or a custom serializable error). Larger apps split
+    the UI and a shared API crate. Follow the Dioxus anti-pattern guide:
+    stable list keys, signals instead of interior mutability in props, no
+    state writes during render (use `use_effect` or `use_memo`), small pieces
+    of state, non-deterministic code in hooks, and derived `PartialEq` for
+    props.
+*   **Errors: `thiserror`** in `domain`, `application`, and adapters;
+    `anyhow` only in `main` and other top-level binaries.
+*   **Business-rule validation: `validations_rs`.** One struct per rule
+    implementing `BusinessLogicValidation<T>` (synchronous) or
+    `AsyncBusinessLogicValidation<T>` (I/O). The use case runs synchronous
+    rules first with `start_validations`, then asynchronous rules with
+    `start_validations_async`, so cheap rules fail before I/O. Adapters map
+    `BusinessRuleError.code` to the transport (HTTP 422, gRPC
+    `FailedPrecondition` or `InvalidArgument`, a serialized Tauri or Dioxus
+    error) and never parse its message.
+
+## 7. Severity Guide
 
 *   **🔴 Blocker**: A missing feature-level decision from Section 1 that changes
     the architecture (error strategy, async model, ownership of shared state,
@@ -171,7 +296,9 @@ Report these as findings:
     that can represent invalid states the requirements forbid.
 *   **🟡 Major**: An anti-pattern in a proposed API; a missing Section 2 item
     (Cargo details, signatures, error variants, `Send + Sync`); a pattern used
-    without its problem.
+    without its problem; a type with more than one responsibility; a
+    dependency that points outward (Section 5); a Section 6 practice ignored
+    without a stated reason.
 *   **🟢 Nit**: Derives, naming conventions, a missing `Language` field, or
     documentation of public items.
 
@@ -180,3 +307,10 @@ Report these as findings:
 *   [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
 *   [Rust Design Patterns](https://rust-unofficial.github.io/patterns/)
 *   [The Rust Programming Language](https://doc.rust-lang.org/book/)
+*   [axum](https://docs.rs/axum/latest/axum/),
+    [tokio](https://docs.rs/tokio/latest/tokio/),
+    [tokio-postgres](https://docs.rs/tokio-postgres/latest/tokio_postgres/),
+    [tonic](https://github.com/hyperium/tonic),
+    [Tauri 2](https://v2.tauri.app/start/),
+    [Dioxus 0.7](https://dioxuslabs.com/learn/0.7/),
+    [validations_rs](https://github.com/mdambro/validations_rs)

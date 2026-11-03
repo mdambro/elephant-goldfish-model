@@ -20,7 +20,9 @@ def test_rust_standard_defines_required_sections() -> None:
       "## 2. Implementation-Level Decisions (Zero-Decision Rust)",
       "## 3. Pattern Selection",
       "## 4. Anti-Patterns",
-      "## 5. Severity Guide",
+      "## 5. Default Architecture",
+      "## 6. Default Stack",
+      "## 7. Severity Guide",
   ):
     assert heading in text, f"Missing {heading} in {STANDARD}"
 
@@ -50,3 +52,13 @@ def test_review_stages_dispatch_the_rust_reviewer() -> None:
   assert review.count("egm-rust]") == 4
   loop = read("skills/egm-review-loop/SKILL.md")
   assert "`rust-standard`" in loop and "`rust`" in loop
+
+
+def test_rust_standard_defines_layers_and_responsibilities() -> None:
+  text = read(STANDARD)
+  for crate in ("`domain`", "`application`", "`proto`", "`infrastructure`"):
+    assert f"| {crate} |" in text, f"Missing {crate} row in {STANDARD}"
+  assert "**Single Responsibility (Author Preference)**" in text
+  for crate in ("tokio", "axum", "tonic", "tokio-postgres", "Tauri", "Dioxus",
+                "validations_rs"):
+    assert crate in text, f"Missing {crate} in the default stack"

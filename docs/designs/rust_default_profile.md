@@ -41,6 +41,10 @@ Three gaps lead to Rust designs that leave decisions to the implementer:
 *   `egm-review` Stages 7 and 9 include a Rust reviewer that applies a written
     rubric, including checks against unjustified patterns.
 *   Non-Rust designs still work: the Rust reviewer returns "not applicable".
+*   The author's defaults are explicit and checked: Clean Architecture crates
+    (`domain`, `application`, `infrastructure`, and `proto` for gRPC), one
+    responsibility per type, and the stack (`tokio`, `axum`, `tonic`,
+    `tokio-postgres`, Tauri, Dioxus, `validations_rs`).
 *   The fork stays easy to rebase on upstream: Rust content lives in new files,
     and edits to upstream files are small.
 
@@ -91,9 +95,12 @@ skills/egm-review Stage 7 / Stage 9 ──► egm-rust (agents/rust.md)
                  resources/document_standards/rust-standard.md
 ```
 
-*   **Rust Standard** (new): Applicability rules, feature-level decisions,
-    zero-decision implementation items, pattern selection table, anti-patterns,
-    and severity guide. It is the single source of Rust rules.
+*   **Rust Standard** (new): Applicability rules, feature-level decisions
+    (including single responsibility and validation placement),
+    zero-decision implementation items, pattern selection table,
+    anti-patterns, default architecture, default stack, and severity guide.
+    It is the single source of Rust rules. Stack versions are recorded with
+    a date, because they age.
 *   **`egm-rust` persona** (new): A read-only Goldfish that applies the Rust
     Standard at the altitude of the reviewed range, verifies claims against the
     codebase, and reports unjustified patterns as well as missing ones.
@@ -127,7 +134,16 @@ persona and standard instead of the skill.
 *   **Reason for Rejection**: Rejected by author: higher rebase cost and less
     clear ownership of the rules.
 
-### Alternative C: General Language Profiles
+### Alternative C: Stack Rules in a Separate Standard
+
+*   **Pros**: The language rules and the author's stack could change
+    independently.
+*   **Cons**: `egm-review-loop` maps one standard to each reviewer, so a second
+    standard needs a second reviewer or a change to the loop.
+*   **Reason for Rejection**: Rejected by author: one reviewer and one
+    standard are simpler; the stack is a separate section.
+
+### Alternative D: General Language Profiles
 
 *   **Pros**: Supports any language with a profile file.
 *   **Cons**: Needs a selection mechanism and profiles nobody uses.

@@ -194,7 +194,7 @@ this strict generation order:
     components, modified files, and API changes. Include text-based block
     diagrams (e.g., ASCII or Mermaid) to illustrate data flow.
 3.  **Rust Design Decisions**: If the language is Rust, fill the `Rust Design
-    Decisions` subsection of the template using Section 1 of
+    Decisions` subsection of the template using Sections 1, 5, and 6 of
     `resources/document_standards/rust-standard.md`. Present each decision
     with more than one defensible answer to the author (Constraint 13).
     Use a pattern from Section 3 only when its problem appears in the design.
