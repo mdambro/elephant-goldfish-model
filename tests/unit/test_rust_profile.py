@@ -62,3 +62,18 @@ def test_rust_standard_defines_layers_and_responsibilities() -> None:
   for crate in ("tokio", "axum", "tonic", "tokio-postgres", "Tauri", "Dioxus",
                 "validations_rs"):
     assert crate in text, f"Missing {crate} in the default stack"
+
+
+def test_install_commands_point_to_the_fork() -> None:
+  readme = read("README.md")
+  assert "claude plugin marketplace add mdambro/elephant-goldfish-model" in readme
+  assert "marketplace add google/elephant-goldfish-model" not in readme
+
+
+def test_onboarding_material_is_present() -> None:
+  for path in ("docs/onboarding/README.md",
+               "docs/onboarding/Patrones_y_arquitectura_en_Rust.pdf",
+               "docs/onboarding/induccion/Cargo.toml",
+               "docs/onboarding/induccion/crates/proto/proto/users/v1/users.proto"):
+    assert (ROOT / path).is_file(), f"Missing {path}"
+  assert "AsyncValidationError::CheckFailed" in read(STANDARD)

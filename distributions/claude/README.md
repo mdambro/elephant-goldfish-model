@@ -26,7 +26,7 @@ Choose your coding agent. Install the complete plugin so its skills can read the
 ### Antigravity CLI
 
 ```sh
-agy plugin install https://github.com/google/elephant-goldfish-model
+agy plugin install https://github.com/mdambro/elephant-goldfish-model
 ```
 
 For the **Antigravity App** and **Antigravity for IDEs** (Visual Studio Code extension), run `/plugin` or see the [installation instructions](docs/harnesses.md#antigravity-app-and-antigravity-for-ides).
@@ -34,14 +34,14 @@ For the **Antigravity App** and **Antigravity for IDEs** (Visual Studio Code ext
 ### Claude Code
 
 ```sh
-claude plugin marketplace add google/elephant-goldfish-model
+claude plugin marketplace add mdambro/elephant-goldfish-model
 claude plugin install egm@egm
 ```
 
 ### Codex
 
 ```sh
-codex plugin marketplace add google/elephant-goldfish-model
+codex plugin marketplace add mdambro/elephant-goldfish-model
 codex plugin add egm@egm
 ```
 
@@ -87,7 +87,8 @@ This fork treats Rust as the default language. Drafts record a `Language`
 field and the Rust decisions that shape the code, and reviews add the
 `egm-rust` reviewer with the [Rust Standard](resources/document_standards/rust-standard.md).
 See [Rust by default](docs/rust.md) to use another language or set up a Rust
-project.
+project. New developers start with the [onboarding guide](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/onboarding/README.md)
+(in Spanish): a Rust course, the default stack, and a practice project.
 
 ## How it works
 

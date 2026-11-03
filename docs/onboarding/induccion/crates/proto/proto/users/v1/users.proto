@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package users.v1;
+
+// Public gRPC contract of the users service.
+// Compatibility rules: never reuse or renumber a field; mark removed fields as `reserved`.
+service UserService {
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+}
+
+message RegisterUserRequest {
+  string email = 1;
+  uint32 age = 2;
+  bool accepted_terms = 3;
+}
+
+message RegisterUserResponse {
+  uint64 id = 1;
+  string email = 2;
+}

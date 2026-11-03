@@ -34,6 +34,18 @@ design may change them, but it must say why.
 The full rules are in Sections 5 and 6 of the
 [Rust Standard](../resources/document_standards/rust-standard.md).
 
+## New Developers
+
+Start with the [onboarding guide](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/onboarding/README.md) (in Spanish). It
+teaches Rust from scratch for developers coming from other languages, explains
+the default architecture and every stack crate through a practice project that
+follows this standard, and ends with a feature built with EGM.
+
+Install EGM from this fork (`mdambro/elephant-goldfish-model`), as the
+[README](../README.md#install) shows. Installing from
+`google/elephant-goldfish-model` gives the upstream plugin without the Rust
+profile.
+
 ## Use Another Language
 
 State it when you draft ("this service is in Go"), or put it in the project's

@@ -271,7 +271,9 @@ architecture decision for the author.
     database clients, `application`) are optional and enabled by `server`,
     and their code is behind `#[cfg(feature = "server")]`. Server functions
     are axum endpoints: they call use cases and return errors the client can
-    match (`ServerFnError` or a custom serializable error). Larger apps split
+    match (`ServerFnError` or a custom serializable error). Server-side
+    services reach them through `State<T>` with `FromRef<FullstackContext>`,
+    registered in `dioxus::serve`, not through global statics. Larger apps split
     the UI and a shared API crate. Follow the Dioxus anti-pattern guide:
     stable list keys, signals instead of interior mutability in props, no
     state writes during render (use `use_effect` or `use_memo`), small pieces
@@ -279,14 +281,21 @@ architecture decision for the author.
     props.
 *   **Errors: `thiserror`** in `domain`, `application`, and adapters;
     `anyhow` only in `main` and other top-level binaries.
-*   **Business-rule validation: `validations_rs`.** One struct per rule
+*   **Business-rule validation: `validations_rs` 0.2.** One struct per rule
     implementing `BusinessLogicValidation<T>` (synchronous) or
     `AsyncBusinessLogicValidation<T>` (I/O). The use case runs synchronous
     rules first with `start_validations`, then asynchronous rules with
-    `start_validations_async`, so cheap rules fail before I/O. Adapters map
-    `BusinessRuleError.code` to the transport (HTTP 422, gRPC
-    `FailedPrecondition` or `InvalidArgument`, a serialized Tauri or Dioxus
-    error) and never parse its message.
+    `start_validations_async`, so cheap rules fail before I/O. Inputs whose
+    caller must see every problem at once (forms, multi-field requests) use
+    `collect_validations`. An asynchronous rule returns
+    `AsyncValidationError::Violation` when the data breaks the rule and
+    `AsyncValidationError::CheckFailed` (with the cause) when the rule could
+    not be checked; the application error keeps them in separate variants.
+    Adapters map a violation's `BusinessRuleError.code` to the transport
+    (HTTP 422, gRPC `FailedPrecondition`, a serialized Tauri or Dioxus error)
+    and a failed check to a transient error (HTTP 503, gRPC `Unavailable`),
+    and never parse a message. Rules that need the current time take it from
+    `with_clock` in tests.
 
 ## 7. Severity Guide
 

@@ -1,0 +1,33 @@
+[workspace]
+members = ["crates/domain", "crates/application", "crates/proto", "crates/infrastructure"]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# Our crates
+domain = { path = "crates/domain" }
+application = { path = "crates/application" }
+proto = { path = "crates/proto" }
+# Business-rule validations (change to "0.2" once 0.2.0 is published on crates.io)
+validations_rs = { git = "https://github.com/mdambro/validations_rs", branch = "release/0.2.0" }
+# Stack
+anyhow = "1"
+axum = "0.8"
+deadpool-postgres = "0.14"
+prost = "0.14"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net"] }
+tokio-postgres = "0.7"
+tonic = "0.14"
+tonic-prost = "0.14"
+tonic-prost-build = "0.14"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+unwrap_used = "warn"

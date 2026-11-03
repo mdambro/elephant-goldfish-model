@@ -47,6 +47,9 @@ Three gaps lead to Rust designs that leave decisions to the implementer:
     `tokio-postgres`, Tauri, Dioxus, `validations_rs`).
 *   The fork stays easy to rebase on upstream: Rust content lives in new files,
     and edits to upstream files are small.
+*   A developer new to Rust can onboard from this repository alone: install
+    commands point to this fork, and `docs/onboarding/` holds a guide and a
+    practice project that follow the Rust Standard.
 
 ## Non-Goals
 
@@ -214,7 +217,16 @@ persona and standard instead of the skill.
 *   **Proposed Changes**: Usage guide with a project template; index entry;
     reviewer tables and counts; a short README section.
 
-#### 9. `tests/unit/test_harnesses.py`, `tests/unit/test_rust_profile.py`, `distributions/claude/` (Modify/Create)
+#### 9. `docs/onboarding/` and install commands (Create/Modify)
+
+*   **Type / Scope**: Onboarding and installation.
+*   **Proposed Changes**: Add the onboarding guide (PDF), its practice
+    workspace, and an index. Point the install commands in `README.md`,
+    `docs/claude.md`, `docs/codex.md`, and `docs/harnesses.md` to this fork,
+    because the marketplace manifests use `source: "./"` and install whichever
+    repository was added.
+
+#### 10. `tests/unit/test_harnesses.py`, `tests/unit/test_rust_profile.py`, `distributions/claude/` (Modify/Create)
 
 *   **Type / Scope**: Tests and generated runtime.
 *   **Proposed Changes**: Add `rust` to `REVIEWERS`; new tests check the wiring;
