@@ -3,6 +3,7 @@
 *   **Author:** [Author Name or GitHub Handle]
 *   **Status:** [Draft | Proposed | In Review | Approved]
 *   **Date:** [YYYY-MM-DD]
+*   **Language:** [Rust (default) | Other language and reason]
 
 --------------------------------------------------------------------------------
 
@@ -86,6 +87,27 @@ mapping here.]
 [Optional ASCII Architecture Diagram]
 ```
 
+### Rust Design Decisions
+
+<!-- Required when Language is Rust; omit for other languages. Record each
+decision from Section 1 of resources/document_standards/rust-standard.md that
+applies, with its reason. Use a pattern only when the design states its
+problem.
+-->
+
+*   **Crates & Modules**: [Workspace layout and dependency direction, or a
+    single crate and why.]
+*   **Domain Model**: [Enums for closed sets and runtime states, newtypes for
+    validated values, typestate for fixed in-process flows.]
+*   **Errors**: [Error type per layer, typed versus opaque, and where errors
+    map to external codes.]
+*   **Polymorphism**: [Enum, generic trait, or `dyn Trait` for each extension
+    point, and why.]
+*   **Ownership & Concurrency**: [Owners of long-lived state, sharing
+    mechanism, `async` runtime or none, `Send + Sync` needs.]
+*   **Dependencies & Unsafe**: [New crates with justification; `unsafe` is
+    none, or isolated with documented invariants.]
+
 ## Alternatives Considered
 
 <!-- Document other architectural approaches or designs that were evaluated and
@@ -146,11 +168,13 @@ language or TBDs.
 
 #### 1. `[File Path 1]` ([Create | Modify])
 
-*   **Type / Scope**: [e.g., Python Service, C++ Library, TypeScript Module, Build
-    Configuration]
+*   **Type / Scope**: [e.g., Rust Library Crate Module, Rust Binary, Cargo
+    Manifest, Python Service, TypeScript Module]
 *   **Proposed Changes**: [Describe the new APIs, class/function signatures, or
     behavioral logic here. Focus on the minimal required details for
-    implementation.]
+    implementation. For Rust, write signatures in Rust syntax and list error
+    variants, trait bounds, derives, and Cargo changes (Section 2 of the Rust
+    Standard).]
 
 #### 2. `[File Path 2]` ([Create | Modify])
 
@@ -164,9 +188,10 @@ language or TBDs.
 implementation. What metrics should be measured to verify success?
 -->
 
-*   **Compilation/Build**: [e.g., `npm run build`, `cargo build`, `make`]
-*   **Unit Tests**: [e.g., `pytest`, `npm test`, `cargo test`]
-*   **Static Analysis & Linting**: [e.g., `eslint`, `ruff check`, `golangci-lint`]
+*   **Compilation/Build**: [e.g., `cargo build --all-targets`, `npm run build`]
+*   **Unit Tests**: [e.g., `cargo test --all-features`, `pytest`, `npm test`]
+*   **Static Analysis & Linting**: [e.g., `cargo fmt --check` and
+    `cargo clippy --all-targets --all-features -- -D warnings`, `ruff check`]
 *   **Test Coverage Requirement**: [e.g., 85%+ branch coverage]
 *   **E2E/Integration**: [e.g., Integration test command or automated eval runner]
 

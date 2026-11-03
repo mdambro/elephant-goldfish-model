@@ -164,6 +164,9 @@ this strict generation order:
 5.  **Resolve Author**: Use the `Author` from the ingested brief if it has one.
     Otherwise use `git config user.name`, then `GIT_AUTHOR_NAME`. If neither is
     set, prompt the user in chat. Record it in the document header.
+6.  **Resolve Language**: Apply the Language Default rule in
+    `resources/execution_instructions.md` and record the result in the
+    `Language` header field (for example `Rust (default)`).
 
 ### Step 2: Draft Overview, Goals & Problem Statement
 
@@ -190,9 +193,14 @@ this strict generation order:
 2.  **Draft Plan**: Describe the proposed changes in clear prose. Identify new
     components, modified files, and API changes. Include text-based block
     diagrams (e.g., ASCII or Mermaid) to illustrate data flow.
-3.  **Update Draft Artifact (MANDATORY)**: Update `design_draft.md` to
+3.  **Rust Design Decisions**: If the language is Rust, fill the `Rust Design
+    Decisions` subsection of the template using Section 1 of
+    `resources/document_standards/rust-standard.md`. Present each decision
+    with more than one defensible answer to the author (Constraint 13).
+    Use a pattern from Section 3 only when its problem appears in the design.
+4.  **Update Draft Artifact (MANDATORY)**: Update `design_draft.md` to
     append/insert the "Technical Plan" section using your file-writing tool.
-4.  **Notify & Verify (No Chat Dumps)**: You are **STRICTLY FORBIDDEN** from
+5.  **Notify & Verify (No Chat Dumps)**: You are **STRICTLY FORBIDDEN** from
     printing the technical plan in the chat. Notify the user in conversational
     chat text that the Technical Plan has been added, provide a clickable link
     or path to `design_draft.md`, and present the Section Approval Gate for
@@ -240,6 +248,11 @@ any impactful decisions. Follow these guidelines:
     intra-package and sibling documentation links.
 5.  **NO CODE**: Do not generate actual implementation code in this design
     draft. Pseudocode, APIs, or schemas are allowed.
+    *   **Rust Plans**: If the language is Rust, specify every item in
+        Section 2 of `resources/document_standards/rust-standard.md`: Cargo
+        changes, public signatures written in Rust syntax, error enums and
+        `From` conversions, trait bounds, derives, tests, and the
+        verification commands.
 6.  **Update Draft Artifact (MANDATORY)**: Update `design_draft.md` to
     append/insert this "Detailed Implementation" section using your file-writing
     tool.

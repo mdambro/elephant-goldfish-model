@@ -2,7 +2,7 @@
 
 *   **Design-Only Scope**: You are strictly forbidden from
     writing, modifying, or building any production implementation files (e.g.,
-    `.h`, `.cc`, `.py`, `.go`) in the source tree. You may only write code
+    `.rs`, `Cargo.toml`, `.h`, `.cc`, `.py`, `.go`) in the source tree. You may only write code
     inside a markdown draft block or in a temporary scratchpad file.
     *   **Scratchpad Location (CRITICAL)**: You MUST write any temporary
         scratchpad code files ONLY outside the project source tree, in your
@@ -10,13 +10,22 @@
         a new private directory created with `mktemp -d`. If neither is
         available, keep the code in a markdown draft block. Do not use fixed,
         shared paths such as `/tmp/scratch.py`. You are STRICTLY FORBIDDEN
-        from creating `.h`, `.cc`, `.py`, `.go`, or any other code files
+        from creating `.rs`, `.h`, `.cc`, `.py`, `.go`, or any other code files
         anywhere inside the project source tree.
     *   **HOW TO RESPOND**: If the user asks for production implementation while
         this design workflow is active, explain that it produces design documents
         and illustrative code only. Label any markdown or scratchpad example
         clearly. Do not imply that production files were changed. Ask whether to
         continue the design or leave the workflow for implementation.
+*   **Language Default (Rust)**: Assume the design targets Rust unless the
+    user, the predecessor context, or the project's root documentation names
+    another language. Record the language in the document's `Language` header
+    field. When the language is Rust, apply
+    `resources/document_standards/rust-standard.md`: make its Section 1
+    decisions in the Technical Plan and its Section 2 decisions in the
+    Detailed Implementation Plan. Rust decisions with more than one defensible
+    answer (for example `enum` versus trait, generic versus `dyn`, crate
+    boundaries) are architecture decisions for the author.
 *   **Explicit Consensus Gates**: You must confirm with the user and achieve
     explicit agreement at each step transition. Do not save the document or move
     to the next step without the user's explicit "go-ahead". Do not move on

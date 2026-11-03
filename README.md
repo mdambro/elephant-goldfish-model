@@ -81,6 +81,14 @@ Fresh reviewers check the design, its clarity, its fit with the code, and its im
 
 See the [workflow guide](docs/getting_started.md) for the full process, including saving approved specifications under `docs/designs/`.
 
+## Rust by default
+
+This fork treats Rust as the default language. Drafts record a `Language`
+field and the Rust decisions that shape the code, and reviews add the
+`egm-rust` reviewer with the [Rust Standard](resources/document_standards/rust-standard.md).
+See [Rust by default](docs/rust.md) to use another language or set up a Rust
+project.
+
 ## How it works
 
 <table>
