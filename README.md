@@ -35,14 +35,14 @@ For the **Antigravity App** and **Antigravity for IDEs** (Visual Studio Code ext
 
 ```sh
 claude plugin marketplace add mdambro/elephant-goldfish-model
-claude plugin install egm@egm-rust
+claude plugin install egm-rust@egm-rust
 ```
 
 ### Codex
 
 ```sh
 codex plugin marketplace add mdambro/elephant-goldfish-model
-codex plugin add egm@egm
+codex plugin add egm-rust@egm
 ```
 
 Start a new session after installation. For **Claude Cowork** and **ChatGPT Work**, see the [setup guide](docs/harnesses.md).
@@ -51,7 +51,7 @@ Start a new session after installation. For **Claude Cowork** and **ChatGPT Work
 
 Open your project in your coding agent and choose a feature that needs design decisions. This example adds webhook delivery: what should happen when a delivery fails, or the same event arrives twice?
 
-The commands below are shown without a prefix. In Antigravity (agy CLI) and Claude Code, add the `/egm:` prefix, for example `/egm:egm-brainstorm`. On agy CLI 1.4.10 an unprefixed name is completed to the prefixed command ([#220](https://github.com/google/elephant-goldfish-model/issues/220)), but 1.4.8 does not ([#196](https://github.com/google/elephant-goldfish-model/issues/196)), so keep the prefix. In Codex, select the corresponding EGM skill from the skill picker. Brainstorming and review require a session that can create fresh subagents.
+The commands below are shown without a prefix. In Antigravity (agy CLI) and Claude Code, add the `/egm-rust:` prefix, for example `/egm-rust:egm-brainstorm`. On agy CLI 1.4.10 an unprefixed name is completed to the prefixed command ([#220](https://github.com/google/elephant-goldfish-model/issues/220)), but 1.4.8 does not ([#196](https://github.com/google/elephant-goldfish-model/issues/196)), so keep the prefix. In Codex, select the corresponding EGM skill from the skill picker. Brainstorming and review require a session that can create fresh subagents.
 
 <img src="skills/egm-brainstorm/assets/icon.svg" width="20" height="20" align="top" alt=""> **Explore the idea**
 

@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[2]
 @pytest.fixture
 def installed(tmp_path: Path) -> Path:
     """Reproduce the documented copy, without another host's manifest."""
-    package = tmp_path / "Cursor candidate café" / "egm"
+    package = tmp_path / "Cursor candidate café" / "egm-rust"
     package.mkdir(parents=True)
     for name in (".cursor-plugin", "skills", "agents", "resources", "docs"):
         shutil.copytree(ROOT / name, package / name)
@@ -149,7 +149,7 @@ loaded.filename = filename
 loaded.paths = Module._nodeModulePaths(require('node:path').dirname(filename))
 loaded._compile(source.replace(entry,
   'module.exports=__webpack_require__("../cursor-plugins/dist/index.js")'), filename)
-loaded.exports.Y__(packageRoot, 'egm').then(plugin => {
+loaded.exports.Y__(packageRoot, 'egm-rust').then(plugin => {
   console.log(JSON.stringify({
     skills: plugin.skills.map(skill => skill.name),
     agents: plugin.agents.map(({ name, model, permissionMode }) => ({ name, model, permissionMode })),

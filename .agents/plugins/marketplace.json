@@ -5,7 +5,7 @@
   },
   "plugins": [
     {
-      "name": "egm",
+      "name": "egm-rust",
       "source": "./",
       "policy": {
         "installation": "AVAILABLE",

@@ -21,7 +21,7 @@ path:
 ```sh
 git clone https://github.com/google/elephant-goldfish-model.git
 muse plugins install ./elephant-goldfish-model --scope user
-muse plugins approve egm
+muse plugins approve egm-rust
 ```
 
 `marketplace add` on this repository discovers zero plugins: Muse reads the
@@ -34,7 +34,7 @@ the plugin is enabled, but the nine agent definitions need
 `approve` before activation.
 
 Start a fresh session after installation. The skills surface as
-`plugin:egm:egm-*` with user-invocable-only activation; confirm with
+`plugin:egm-rust:egm-*` with user-invocable-only activation; confirm with
 `muse skills list --source plugin`. That prints `plugin://` URIs, not
 filesystem paths; get the installed path from the `cache=` field of
 `muse plugins inspect egm`. Do not assume a particular cache directory,
@@ -57,7 +57,7 @@ the plugin alone does not establish end-to-end workflow support.
 ## Fresh-context reviewers
 
 Muse imports the nine Claude adapters as supported agent
-definitions (`egm/egm-design`, `egm/egm-comprehension`, and so on), but
+definitions (`egm-rust/egm-design`, `egm-rust/egm-comprehension`, and so on), but
 every agent tool projection is unsupported: Claude tool allowlists do not
 restrict Muse reviewers, so do not assume reviewers are read-only. Inspect
 the available native subagent tool schema before dispatching; tool names can
@@ -69,7 +69,7 @@ reading list. Do not pass the parent transcript, private reasoning, or
 answers the document is supposed to explain. When named agents are
 unavailable, fall back to a general-purpose subagent that reads the persona
 file first. Match it by `name` frontmatter, not filename: `egm-design` is
-`agents/design_critic.md`. On Muse 1.4.14 the named `egm/egm-*`
+`agents/design_critic.md`. On Muse 1.4.14 the named `egm-rust/egm-*`
 definitions report `trusted_enabled` in the plugin inventory but spawning
 one is rejected (`agent_definition_unavailable`), so the general-purpose
 fallback is the working path in practice.

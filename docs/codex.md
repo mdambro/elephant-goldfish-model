@@ -11,7 +11,7 @@ Install the whole plugin, including its personas and standards:
 
 ```sh
 codex plugin marketplace add mdambro/elephant-goldfish-model
-codex plugin add egm@egm
+codex plugin add egm-rust@egm
 ```
 
 Start a fresh session after installation. Select the installed `egm` skill

@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "egm",
+  "name": "egm-rust",
   "version": "0.1.0",
   "description": "Draft specs, review designs, and check implementation drift.",
   "author": {
