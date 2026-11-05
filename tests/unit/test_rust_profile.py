@@ -2,7 +2,9 @@
 
 """Keep the Rust default profile wired into drafting and review."""
 
+import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[2]
 STANDARD = "resources/document_standards/rust-standard.md"
@@ -29,7 +31,7 @@ def test_rust_standard_defines_required_sections() -> None:
 
 def test_rust_persona_reads_the_standard() -> None:
   persona = read("agents/rust.md")
-  assert "name: egm-rust" in persona
+  assert "name: egm-rust-reviewer" in persona
   assert f"`{STANDARD}`" in persona
   assert "Mode: BRAINSTORM" in persona and "Mode: REVIEW" in persona
 
@@ -48,8 +50,8 @@ def test_drafting_records_language_and_rust_decisions() -> None:
 
 def test_review_stages_dispatch_the_rust_reviewer() -> None:
   review = read("skills/egm-review/SKILL.md")
-  assert review.count('"egm-rust": "rust-standard"') == 2
-  assert review.count("egm-rust]") == 4
+  assert review.count('"egm-rust-reviewer": "rust-standard"') == 2
+  assert review.count("egm-rust-reviewer]") == 4
   loop = read("skills/egm-review-loop/SKILL.md")
   assert "`rust-standard`" in loop and "`rust`" in loop
 
@@ -77,3 +79,41 @@ def test_onboarding_material_is_present() -> None:
                "docs/onboarding/induccion/crates/proto/proto/users/v1/users.proto"):
     assert (ROOT / path).is_file(), f"Missing {path}"
   assert "AsyncValidationError::CheckFailed" in read(STANDARD)
+
+
+def test_plugin_is_named_egm_rust_on_every_host() -> None:
+  for path in ("plugin.json", ".claude-plugin/plugin.json",
+               ".codex-plugin/plugin.json", ".cursor-plugin/plugin.json",
+               ".plugin/plugin.json"):
+    assert json.loads(read(path))["name"] == "egm-rust", path
+  for path in (".claude-plugin/marketplace.json",
+               ".agents/plugins/marketplace.json"):
+    marketplace = json.loads(read(path))
+    assert marketplace["name"] == "egm-rust", path
+    assert marketplace["plugins"][0]["name"] == "egm-rust", path
+  entry = read("com.github.copilot/agents/egm-rust.agent.md")
+  assert "name: egm-rust\n" in entry.replace("\r\n", "\n")
+  opencode = read("adapters/opencode/install.py")
+  assert '"default_agent": "egm-rust"' in opencode
+
+
+def test_shipped_text_has_no_upstream_plugin_ids() -> None:
+  """A merge from upstream can reintroduce ids; only the translation page may name them."""
+  legacy = re.compile(r"\begm:|\begm@|--agent egm\b(?!-)|plugins approve egm\b(?!-)")
+  paths = [ROOT / "README.md"]
+  for pattern in ("docs/*.md", "skills/*/SKILL.md", "agents/*.md",
+                  ".claude-plugin/agents/*.md", ".cursor-plugin/agents/*.md",
+                  "com.github.copilot/agents/*.md"):
+    paths += ROOT.glob(pattern)
+  for path in paths:
+    if path.name == "upstream_docs.md":
+      continue
+    found = legacy.findall(path.read_text(encoding="utf-8"))
+    assert not found, f"{path.relative_to(ROOT)}: {found}"
+
+
+def test_upstream_translation_page_is_linked_from_the_readme() -> None:
+  assert "docs/upstream_docs.md" in read("README.md")
+  page = read("docs/upstream_docs.md")
+  assert "`claude plugin install egm-rust@egm-rust`" in page
+  assert "egm-rust-reviewer" in page

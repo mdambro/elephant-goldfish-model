@@ -167,7 +167,7 @@ def main() -> None:
                     '--model',
                     'fixture/fixture',
                     '--agent',
-                    'egm',
+                    'egm-rust',
                     f'Parent-only marker: {MARKER}. Delegate without it.',
                 ],
                 cwd=project,

@@ -1,5 +1,5 @@
 ---
-name: egm-rust
+name: egm-rust-reviewer
 description: Idiomatic Rust design and pattern-fit reviewer.
 license: Apache-2.0
 tools: [Read, Grep, Glob]

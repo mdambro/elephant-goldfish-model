@@ -6,9 +6,10 @@
 | --- | --- |
 | [Getting started](getting_started.md) and [FAQ](faq.md) | Installation and everyday use. |
 | [Harnesses](harnesses.md), [Claude](claude.md), and [Codex](codex.md) | Host-specific installation and execution. |
-| [Design documents](https://github.com/google/elephant-goldfish-model/blob/main/docs/designs/README.md) | Architecture, workflow rationale, and implementation plans. |
+| [Using the upstream documentation](upstream_docs.md) | How to read egm.dev and the upstream repository with this fork. |
+| [Design documents](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/designs/README.md) | Architecture, workflow rationale, and implementation plans. |
 | [Shared runtime resources](../resources/README.md) | Authoritative execution rules and review standards. |
-| [Testing playbook](https://github.com/google/elephant-goldfish-model/blob/main/TESTING.md) | Commands and evidence requirements. |
+| [Testing playbook](https://github.com/mdambro/elephant-goldfish-model/blob/main/TESTING.md) | Commands and evidence requirements. |
 | [PR #103 verification reports](https://github.com/google/elephant-goldfish-model/pull/103) | Detailed harness results and known verification gaps. |
 
 `docs/` explains the system to contributors and users. `resources/` contains
@@ -96,9 +97,9 @@ their strengths and weaknesses.
 *   [Codex](codex.md): Plugin installation and native workflow verification.
 *   [Claude Code](claude.md): Plugin resources and isolated reviewers.
 *   [Frequently Asked Questions (FAQ)](faq.md): Common questions and answers.
-*   [Framework Architecture](https://github.com/google/elephant-goldfish-model/blob/main/docs/designs/architecture.md): Detailed component
+*   [Framework Architecture](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/designs/architecture.md): Detailed component
     design and lifecycle.
-*   [Contributing Guidelines](https://github.com/google/elephant-goldfish-model/blob/main/CONTRIBUTING.md): How to contribute new skills,
+*   [Contributing Guidelines](https://github.com/mdambro/elephant-goldfish-model/blob/main/CONTRIBUTING.md): How to contribute new skills,
     personas, and standards.
 
 [^not-really]: It's a

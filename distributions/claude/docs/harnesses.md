@@ -14,7 +14,7 @@ text.
 | Antigravity IDE (standalone) | Not supported; see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
 | Claude Code | `claude plugin marketplace add mdambro/elephant-goldfish-model && claude plugin install egm-rust@egm-rust` |
 | Claude Cowork | Install from claude.ai/plugins or the Cowork plugin panel via marketplace `mdambro/elephant-goldfish-model` |
-| Codex | `codex plugin marketplace add mdambro/elephant-goldfish-model && codex plugin add egm-rust@egm` |
+| Codex | `codex plugin marketplace add mdambro/elephant-goldfish-model && codex plugin add egm-rust@egm-rust` |
 | ChatGPT | Personal testing: Plugins > Add > Upload plugin archive; see [packaging](codex.md#chatgpt). Workspace import: Admin > Plugins > Add > Import marketplace, repo URL `https://github.com/mdambro/elephant-goldfish-model`, path `.agents/plugins` |
 | omp | `omp plugin marketplace add mdambro/elephant-goldfish-model && omp plugin install egm-rust@egm-rust` |
 | Muse | `git clone https://github.com/mdambro/elephant-goldfish-model.git && muse plugins install ./elephant-goldfish-model --scope user && muse plugins approve egm-rust` |
@@ -156,9 +156,9 @@ control is verified here for Codex or Antigravity.
 
 **omp** ([#186](https://github.com/google/elephant-goldfish-model/issues/186)) has a working installation path. Skills are invoked as `/skill:egm-<command>` (omp registers one command per skill; it has no `/egm-*` namespace). Community-verified on omp v18.12.6: all seven skills discover and resolve, and all nine reviewer personas register as subagents. End-to-end workflow fixtures are not yet automated for omp.
 
-**Muse** (1.4.14) has a working installation path. `muse plugins validate` reports the plugin valid with all seven skills and all nine agent adapters supported; every agent tool projection is unsupported, so Claude tool allowlists do not restrict Muse reviewers. Install from a local path; `marketplace add` on this repository discovers zero plugins because Muse reads the Codex catalog first. End-to-end workflow fixtures passed on 2026-10-30 (brainstorm, draft, and uninterrupted review with 15 fresh-context reviewers); named `egm-rust/egm-*` agents cannot be spawned in this runtime, so reviewers used the general-purpose fallback reading the installed persona first. See the [Muse guide](https://github.com/google/elephant-goldfish-model/blob/main/docs/muse.md). No skill routes a Muse session to that guide yet ([#252](https://github.com/google/elephant-goldfish-model/issues/252)), so point the session at it.
+**Muse** (1.4.14) has a working installation path. `muse plugins validate` reports the plugin valid with all seven skills and all nine agent adapters supported; every agent tool projection is unsupported, so Claude tool allowlists do not restrict Muse reviewers. Install from a local path; `marketplace add` on this repository discovers zero plugins because Muse reads the Codex catalog first. End-to-end workflow fixtures passed on 2026-10-30 (brainstorm, draft, and uninterrupted review with 15 fresh-context reviewers); named `egm-rust/egm-*` agents cannot be spawned in this runtime, so reviewers used the general-purpose fallback reading the installed persona first. See the [Muse guide](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/muse.md). No skill routes a Muse session to that guide yet ([#252](https://github.com/google/elephant-goldfish-model/issues/252)), so point the session at it.
 
-See the [harness test record](https://github.com/google/elephant-goldfish-model/blob/main/TESTING.md#harness-test-record) for tested surfaces and limits.
+See the [harness test record](https://github.com/mdambro/elephant-goldfish-model/blob/main/TESTING.md#harness-test-record) for tested surfaces and limits.
 
 We welcome contributors who want to help verify and expand harness support.
 
@@ -174,4 +174,4 @@ support for another harness:
    (`docs/harnesses.md`).
 3. Verify that `/egm-brainstorm`, `/egm-draft`, and `/egm-review` run end to end,
    and attach verification notes or execution transcripts in your Pull Request description
-   (as outlined in the [Pull Request Template](https://github.com/google/elephant-goldfish-model/blob/main/.github/PULL_REQUEST_TEMPLATE.md)).
+   (as outlined in the [Pull Request Template](https://github.com/mdambro/elephant-goldfish-model/blob/main/.github/PULL_REQUEST_TEMPLATE.md)).

@@ -19,7 +19,7 @@ Install the whole plugin, including its personas and standards, from a local
 path:
 
 ```sh
-git clone https://github.com/google/elephant-goldfish-model.git
+git clone https://github.com/mdambro/elephant-goldfish-model.git
 muse plugins install ./elephant-goldfish-model --scope user
 muse plugins approve egm-rust
 ```
@@ -112,6 +112,6 @@ general-purpose reviewer fallback described above. The prompt named this guide
 and it ran headless with approvals simulated up front, so skill routing,
 interactive approval gates, and chat link rendering are untested; see the
 [harness test
-record](https://github.com/google/elephant-goldfish-model/blob/main/TESTING.md#harness-test-record).
+record](https://github.com/mdambro/elephant-goldfish-model/blob/main/TESTING.md#harness-test-record).
 Installing or discovering the plugin alone does not establish end-to-end
 workflow support.

@@ -1,7 +1,7 @@
 ---
 import Button from './gb/Button.astro';
 
-const repo = 'https://github.com/google/elephant-goldfish-model';
+const repo = 'https://github.com/mdambro/elephant-goldfish-model';
 const guide = `${repo}/blob/HEAD/docs/getting_started.md`;
 
 const promptPath = {
@@ -21,12 +21,12 @@ const cliPaths = [
       { label: 'Claude Code', href: 'https://code.claude.com' },
       { label: 'Claude Cowork', href: 'https://claude.ai/plugins' },
     ],
-    text: `claude plugin marketplace add google/elephant-goldfish-model && \\\nclaude plugin install egm@egm`,
+    text: `claude plugin marketplace add mdambro/elephant-goldfish-model && \\\nclaude plugin install egm-rust@egm-rust`,
     copyLabel: 'Copy Claude command',
   },
   {
     links: [{ label: 'Codex', href: 'https://openai.com/codex' }],
-    text: `codex plugin marketplace add google/elephant-goldfish-model && \\\ncodex plugin add egm@egm`,
+    text: `codex plugin marketplace add mdambro/elephant-goldfish-model && \\\ncodex plugin add egm-rust@egm-rust`,
     copyLabel: 'Copy Codex command',
   },
 ];

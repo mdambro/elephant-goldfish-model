@@ -16,7 +16,7 @@ SHARED = (
     "skills/*/references/*.json", "agents/*.md", "resources/*.md",
     "resources/document_standards/*.md", "docs/index.md", "docs/getting_started.md",
     "docs/harnesses.md", "docs/claude.md", "docs/codex.md", "docs/faq.md",
-    "docs/privacy.md", "docs/releases.md", "docs/rust.md",
+    "docs/privacy.md", "docs/releases.md", "docs/rust.md", "docs/upstream_docs.md",
     "assets/*.svg", "assets/*.png", "docs/assets/*.svg", "docs/assets/*.png",
 )
 HOST = {

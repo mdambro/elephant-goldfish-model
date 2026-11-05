@@ -7,7 +7,7 @@ welcome.
 ## Scope and goals
 
 This statement covers the repository's documentation, shared skill content,
-and the [EGM website](https://egm.dev).
+and the [upstream EGM website](https://egm.dev), which documents the upstream plugin ([differences](docs/upstream_docs.md)).
 
 Our goal for the website is the Web Content Accessibility Guidelines
 [WCAG 2.2 Level AA](https://www.w3.org/TR/WCAG22/).

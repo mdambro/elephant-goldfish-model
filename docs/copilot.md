@@ -35,7 +35,7 @@ Inspect the host inventories before any live test.
 After explicit authorization for model usage, start Copilot from the target project:
 
 ```sh
-copilot --plugin-dir "$EGM_ROOT" --add-dir "$EGM_ROOT" --agent egm-rust:egm
+copilot --plugin-dir "$EGM_ROOT" --add-dir "$EGM_ROOT" --agent egm-rust:egm-rust
 ```
 
 In the first message, supply the absolute package root and requested skill:
@@ -47,7 +47,7 @@ EGM artifact directory: .dev/docs
 ```
 
 Use `egm-draft` or `egm-review` in later requests. Provide the target document
-for review. Use the `egm-rust:egm` entry agent so the host mapping loads before a skill.
+for review. Use the `egm-rust:egm-rust` entry agent so the host mapping loads before a skill.
 Selecting a reviewer as the main session does not establish a fresh Goldfish context.
 Check `/agent` for name conflicts before use; personal profiles can override package profiles.
 
@@ -89,7 +89,7 @@ Each reviewer permits only `read` and `search`. Reviewers cannot delegate or wri
 | `egm-rust:egm-structural` | `agents/structural.md` |
 | `egm-rust:egm-style` | `agents/style.md` |
 | `egm-rust:egm-zoom-out` | `agents/zoom_out.md` |
-| `egm-rust:egm-rust` | `agents/rust.md` |
+| `egm-rust:egm-rust-reviewer` | `agents/rust.md` |
 
 Start a new native child for every reviewer invocation, including repeat reviews.
 Use a task that contains only the requested mode, target, line ranges, persona,

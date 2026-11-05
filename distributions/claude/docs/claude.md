@@ -17,6 +17,7 @@ claude plugin install egm-rust@egm-rust
 
 The plugin and its marketplace are named `egm-rust` because Claude Code registers
 one marketplace per name, so this fork can coexist with the upstream `egm` plugin.
+To run both, see [Run Next to the Upstream Plugin](upstream_docs.md#run-next-to-the-upstream-plugin).
 
 Enable the installed plugin with `claude plugin enable egm-rust@egm-rust`.
 Start messages with `/egm-rust:egm-brainstorm`, `/egm-rust:egm-draft`, or `/egm-rust:egm-review`.

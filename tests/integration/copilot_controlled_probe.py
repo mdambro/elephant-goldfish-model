@@ -129,7 +129,7 @@ def main() -> None:
             args = [
                 cli, '--no-auto-update', '--no-custom-instructions',
                 '--disable-builtin-mcps', '--plugin-dir', str(PACKAGE),
-                '--add-dir', str(PACKAGE), '--agent', 'egm-rust:egm',
+                '--add-dir', str(PACKAGE), '--agent', 'egm-rust:egm-rust',
                 '--allow-all-tools', '--output-format', 'json',
                 '-p', f'Parent-only marker: {marker}. Invoke the controlled reviewer.',
             ]

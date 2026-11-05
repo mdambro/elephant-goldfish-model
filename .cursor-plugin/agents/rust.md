@@ -1,5 +1,5 @@
 ---
-name: egm-rust
+name: egm-rust-reviewer
 description: Rust design reviewer.
 model: inherit
 readonly: true
