@@ -13,7 +13,7 @@ section points to them.
     [PR template](.github/PULL_REQUEST_TEMPLATE.md).
 *   **New feature, architectural change, or anything over the Track 1
     limits:** open a
-    [feature proposal issue](https://github.com/google/elephant-goldfish-model/issues/new?template=feature_proposal.md)
+    [feature proposal issue](https://github.com/mdambro/elephant-goldfish-model/issues/new?template=feature_proposal.md)
     and follow the Track 2 steps. Existing design docs are listed in
     [docs/designs/README.md](docs/designs/README.md).
 
@@ -35,7 +35,7 @@ describe the change. Omit unnecessary words when the meaning stays clear.
 Keep articles such as "a" and "the" when needed for clarity.
 Example: `Explain ignored agents folder warning in Claude Code`.
 
-Add applicable labels: `docs` for documentation, `site` for the website,
+Add applicable labels: `docs` for documentation,
 `ci` for GitHub Actions, or `deps` for dependencies. If you cannot apply labels,
 suggest them in the PR description. Maintainers control `design-ready` and
 `pr-ready`. Automation manages `design-needed`.
@@ -61,7 +61,7 @@ follows the EGM Spec-Driven Development process:
 
 1.  **Reach Out & Align (`design-ready`)**:
     Before investing in a large implementation or full specification, open a
-    [Feature / Architectural Inquiry Issue](https://github.com/google/elephant-goldfish-model/issues/new?template=feature_proposal.md)
+    [Feature / Architectural Inquiry Issue](https://github.com/mdambro/elephant-goldfish-model/issues/new?template=feature_proposal.md)
     (`.github/ISSUE_TEMPLATE/feature_proposal.md`) outlining the problem
     statement and proposed `Goals` vs. `Non-Goals`. We recommend using
     `/egm-brainstorm` to complete this section. Maintainers will review and apply

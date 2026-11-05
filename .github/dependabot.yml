@@ -14,20 +14,6 @@
 
 version: 2
 updates:
-  - package-ecosystem: npm
-    labels: ["deps"]
-    directory: /site
-    schedule:
-      interval: weekly
-    cooldown:
-      default-days: 7
-    ignore:
-      # @astrojs/check peers on typescript ^5 || ^6; 7.x breaks npm ci.
-      - dependency-name: typescript
-        versions: [">= 7.0.0"]
-    groups:
-      site:
-        patterns: ["*"]
   - package-ecosystem: github-actions
     labels: ["deps", "ci"]
     directory: /

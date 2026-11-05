@@ -2,7 +2,7 @@
 Omit unnecessary words when the meaning stays clear. Keep articles when needed.
 Example: Explain ignored agents folder warning in Claude Code -->
 
-<!-- Labels: Add applicable labels: docs, site, ci, or deps.
+<!-- Labels: Add applicable labels: docs, ci, or deps.
 If you cannot apply labels, suggest them in the description.
 Maintainers control design-ready and pr-ready. Automation manages design-needed. -->
 

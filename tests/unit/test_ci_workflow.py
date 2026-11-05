@@ -50,10 +50,6 @@ def test_release_installs_shared_test_group_before_tag_checkout() -> None:
     ({"unit": "failure"}, False),
     ({"unit": "cancelled"}, False),
     ({"unit": "skipped"}, False),
-    ({"unit": "success", "site-validation": "success"}, True),
-    ({"unit": "success", "site-validation": "failure"}, False),
-    ({"unit": "success", "site-validation": "cancelled"}, False),
-    ({"unit": "success", "site-validation": "skipped"}, False),
 ])
 def test_ci_requires_successful_results(results: dict, success: bool) -> None:
   step = workflow()["jobs"]["ci"]["steps"][0]

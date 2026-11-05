@@ -35,7 +35,7 @@ an existing release. Fix a failed build before creating a new candidate version.
 For local preparation, use a fresh output directory:
 
 ```sh
-python scripts/prepare_release.py --tag v0.2.0 --commit "$(git rev-parse HEAD)" --output /tmp/egm-0.2.0-candidate
+python scripts/prepare_release.py --tag v0.2.1 --commit "$(git rev-parse HEAD)" --output /tmp/egm-0.2.1-candidate
 ```
 
 The local command checks manifest versions and builds artifacts. It does not

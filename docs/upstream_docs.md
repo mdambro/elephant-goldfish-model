@@ -63,10 +63,12 @@ The website does not mention any of these, because upstream does not have them.
 
 Numbered references such as issue #105 or PR #103 in these documents point to the
 upstream tracker, where that history lives. Read them as background: a decision
-recorded there can be changed here.
+recorded there can be changed here. Report problems with this fork in
+[its own issues](https://github.com/mdambro/elephant-goldfish-model/issues).
 
-The website's footer and its privacy and terms links describe the website, not
-this plugin. For the plugin, read [Privacy](privacy.md).
+This fork publishes no website, so egm.dev stays the only site. Its footer and its
+privacy and terms links describe that website, not this plugin. For the plugin,
+read [Privacy](privacy.md).
 
 ## Run Next to the Upstream Plugin
 

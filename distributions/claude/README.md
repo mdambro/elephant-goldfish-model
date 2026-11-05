@@ -135,7 +135,7 @@ You can use each skill when you need it. You do not have to follow the full sequ
 See the [accessibility statement](https://github.com/mdambro/elephant-goldfish-model/blob/main/ACCESSIBILITY.md)
 for accessibility goals, known limits, and how to report barriers.
 
-Read [contributing](https://github.com/mdambro/elephant-goldfish-model/blob/main/CONTRIBUTING.md) for PRs, [issues](https://github.com/google/elephant-goldfish-model/issues) for bugs, and [discussions](https://github.com/google/elephant-goldfish-model/discussions) for questions.
+Read [contributing](https://github.com/mdambro/elephant-goldfish-model/blob/main/CONTRIBUTING.md) for PRs, [issues](https://github.com/mdambro/elephant-goldfish-model/issues) for bugs, and [discussions](https://github.com/google/elephant-goldfish-model/discussions) for questions.
 
 ## License
 

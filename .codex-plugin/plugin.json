@@ -1,6 +1,6 @@
 {
   "name": "egm-rust",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Draft specs, review designs, and check implementation drift.",
   "author": {
     "name": "Google"
@@ -19,7 +19,7 @@
     "category": "Developer Tools",
     "capabilities": ["Draft specifications", "Review designs", "Check implementation drift"],
     "websiteURL": "https://github.com/mdambro/elephant-goldfish-model",
-    "supportURL": "https://github.com/mdambro/elephant-goldfish-model",
+    "supportURL": "https://github.com/mdambro/elephant-goldfish-model/issues",
     "privacyPolicyURL": "https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/privacy.md",
     "termsOfServiceURL": "https://github.com/mdambro/elephant-goldfish-model/blob/main/LICENSE",
     "composerIcon": "./assets/icon.svg",

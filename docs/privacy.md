@@ -39,7 +39,7 @@ packages. Website and development tooling are also excluded.
 
 ## Questions
 
-Use the [issue tracker](https://github.com/google/elephant-goldfish-model/issues)
+Use the [issue tracker](https://github.com/mdambro/elephant-goldfish-model/issues)
 for general questions. Do not include credentials, private documents, or personal
 data in public reports. This notice describes the plugin's data flow; it does
 not replace the privacy policies of the host or services the user invokes.

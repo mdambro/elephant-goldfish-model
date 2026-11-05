@@ -117,3 +117,17 @@ def test_upstream_translation_page_is_linked_from_the_readme() -> None:
   page = read("docs/upstream_docs.md")
   assert "`claude plugin install egm-rust@egm-rust`" in page
   assert "egm-rust-reviewer" in page
+
+
+def test_fork_publishes_no_website() -> None:
+  """egm.dev belongs to upstream; a merge must not bring back a deployment."""
+  assert not (ROOT / "site").exists()
+  assert not (ROOT / ".github/workflows/deploy-site.yml").exists()
+
+
+def test_new_issues_go_to_the_fork() -> None:
+  upstream = "github.com/google/elephant-goldfish-model/issues/new"
+  for path in ("ACCESSIBILITY.md", "AI_POLICY.md", "CONTRIBUTING.md"):
+    assert upstream not in read(path), path
+  assert json.loads(read(".claude-plugin/plugin.json"))["supportUrl"].endswith(
+      "mdambro/elephant-goldfish-model/issues")
