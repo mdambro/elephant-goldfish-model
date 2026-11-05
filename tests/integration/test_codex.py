@@ -61,7 +61,7 @@ def installed_plugin(
     name = "egm-test-" + uuid.uuid4().hex[:12]
     marketplace["name"] = name
     marketplace_file.write_text(json.dumps(marketplace))
-    selector = f"egm@{name}"
+    selector = f"egm-rust@{name}"
     try:
         cli("marketplace", "add", str(source))
         result = cli("add", selector)

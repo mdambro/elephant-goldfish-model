@@ -13,7 +13,7 @@ timestamps, and permissions are fixed; identical inputs produce identical
 archives on the same Python/zlib runtime.
 
 The allowlist includes skill instructions and references, personas, standards,
-runtime guides, manifests, and icons. It excludes the site, tests, workflows,
+runtime guides, manifests, and icons. It excludes tests, workflows,
 marketplace catalogs, hooks, and build tools. Claude retains its native agent
 adapters; OpenAI excludes Claude components. Runtime files are nonexecutable.
 Symlinked runtime paths and escaping manifest references are rejected.

@@ -1,11 +1,11 @@
 {
-  "name": "egm",
+  "name": "egm-rust",
   "owner": {
     "name": "Google"
   },
   "plugins": [
     {
-      "name": "egm",
+      "name": "egm-rust",
       "source": "./",
       "description": "Draft specs, review designs, and check implementation drift."
     }

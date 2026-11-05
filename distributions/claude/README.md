@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://egm.dev"><img src="docs/assets/readme-header.svg" width="480" height="116" alt="Elephant-Goldfish Model"></a>
+  <a href="#install"><img src="docs/assets/readme-header.svg" width="480" height="116" alt="Elephant-Goldfish Model"></a>
 </p>
 
 <p align="center">Design with an elephant. Review with a goldfish.</p>
@@ -8,10 +8,12 @@
   <a href="#install">Install</a> &ensp;·&ensp;
   <a href="#try-your-first-design">Quickstart</a> &ensp;·&ensp;
   <a href="docs/getting_started.md">Documentation</a> &ensp;·&ensp;
-  <a href="https://egm.dev">Website</a>
+  <a href="docs/upstream_docs.md">Upstream website</a>
 </p>
 
 <br>
+
+> **This is a fork of [Google's EGM](https://github.com/google/elephant-goldfish-model) with Rust as the default language.** The plugin is named `egm-rust` on every host. [egm.dev](https://egm.dev) documents the upstream plugin, so read [Using the Upstream Documentation](docs/upstream_docs.md) before following its commands.
 
 Thousands of Google engineers use EGM, an open-source plugin, to draft specs with deep-context agents and stress-test them with zero-context subagents before writing code.
 
@@ -35,14 +37,14 @@ For the **Antigravity App** and **Antigravity for IDEs** (Visual Studio Code ext
 
 ```sh
 claude plugin marketplace add mdambro/elephant-goldfish-model
-claude plugin install egm@egm
+claude plugin install egm-rust@egm-rust
 ```
 
 ### Codex
 
 ```sh
 codex plugin marketplace add mdambro/elephant-goldfish-model
-codex plugin add egm@egm
+codex plugin add egm-rust@egm-rust
 ```
 
 Start a new session after installation. For **Claude Cowork** and **ChatGPT Work**, see the [setup guide](docs/harnesses.md).
@@ -51,7 +53,7 @@ Start a new session after installation. For **Claude Cowork** and **ChatGPT Work
 
 Open your project in your coding agent and choose a feature that needs design decisions. This example adds webhook delivery: what should happen when a delivery fails, or the same event arrives twice?
 
-The commands below are shown without a prefix. In Antigravity (agy CLI) and Claude Code, add the `/egm:` prefix, for example `/egm:egm-brainstorm`. On agy CLI 1.4.10 an unprefixed name is completed to the prefixed command ([#220](https://github.com/google/elephant-goldfish-model/issues/220)), but 1.4.8 does not ([#196](https://github.com/google/elephant-goldfish-model/issues/196)), so keep the prefix. In Codex, select the corresponding EGM skill from the skill picker. Brainstorming and review require a session that can create fresh subagents.
+The commands below are shown without a prefix. In Antigravity (agy CLI) and Claude Code, add the `/egm-rust:` prefix, for example `/egm-rust:egm-brainstorm`. On agy CLI 1.4.10 an unprefixed name is completed to the prefixed command ([#220](https://github.com/google/elephant-goldfish-model/issues/220)), but 1.4.8 does not ([#196](https://github.com/google/elephant-goldfish-model/issues/196)), so keep the prefix. In Codex, select the corresponding EGM skill from the skill picker. Brainstorming and review require a session that can create fresh subagents.
 
 <img src="skills/egm-brainstorm/assets/icon.svg" width="20" height="20" align="top" alt=""> **Explore the idea**
 
@@ -85,7 +87,7 @@ See the [workflow guide](docs/getting_started.md) for the full process, includin
 
 This fork treats Rust as the default language. Drafts record a `Language`
 field and the Rust decisions that shape the code, and reviews add the
-`egm-rust` reviewer with the [Rust Standard](resources/document_standards/rust-standard.md).
+`egm-rust-reviewer` reviewer with the [Rust Standard](resources/document_standards/rust-standard.md).
 See [Rust by default](docs/rust.md) to use another language or set up a Rust
 project. New developers start with the [onboarding guide](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/onboarding/README.md)
 (in Spanish): a Rust course, the default stack, and a practice project.
@@ -124,16 +126,16 @@ You can use each skill when you need it. You do not have to follow the full sequ
 
 - [Getting started](docs/getting_started.md): the workflow and project layout.
 - [Setup](docs/harnesses.md): installation, agent capabilities, and known limits.
-- [Architecture](https://github.com/google/elephant-goldfish-model/blob/main/docs/designs/architecture.md): how skills and reviewers fit together.
-- [Testing](https://github.com/google/elephant-goldfish-model/blob/main/TESTING.md): checks, execution records, and verification limits.
+- [Architecture](https://github.com/mdambro/elephant-goldfish-model/blob/main/docs/designs/architecture.md): how skills and reviewers fit together.
+- [Testing](https://github.com/mdambro/elephant-goldfish-model/blob/main/TESTING.md): checks, execution records, and verification limits.
 - [Dave Rensin’s original essay](https://medium.com/@drensin/elephants-goldfish-and-the-new-golden-age-of-software-engineering-c33641a48874): the ideas behind EGM.
 
 ## Contribute
 
-See the [accessibility statement](https://github.com/google/elephant-goldfish-model/blob/main/ACCESSIBILITY.md)
+See the [accessibility statement](https://github.com/mdambro/elephant-goldfish-model/blob/main/ACCESSIBILITY.md)
 for accessibility goals, known limits, and how to report barriers.
 
-Read [contributing](https://github.com/google/elephant-goldfish-model/blob/main/CONTRIBUTING.md) for PRs, [issues](https://github.com/google/elephant-goldfish-model/issues) for bugs, and [discussions](https://github.com/google/elephant-goldfish-model/discussions) for questions.
+Read [contributing](https://github.com/mdambro/elephant-goldfish-model/blob/main/CONTRIBUTING.md) for PRs, [issues](https://github.com/mdambro/elephant-goldfish-model/issues) for bugs, and [discussions](https://github.com/google/elephant-goldfish-model/discussions) for questions.
 
 ## License
 

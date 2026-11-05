@@ -11,6 +11,6 @@ Si llegás al equipo desde otro lenguaje, este es el punto de partida. En el ord
    El primer paso es `cargo check --workspace`.
 4. **Hacé el proyecto final** (Parte 8 de la guía) usando EGM, como cualquier funcionalidad real.
 
-Las reglas que la guía enseña son las mismas que aplica el revisor `egm-rust` de EGM: el
+Las reglas que la guía enseña son las mismas que aplica el revisor `egm-rust-reviewer` de EGM: el
 [Rust Standard](../../resources/document_standards/rust-standard.md). Si cambia una regla del
 equipo, se cambia en el estándar y se actualiza la guía.

@@ -34,7 +34,7 @@ def test_install_preserves_resources_and_native_contract(tmp_path: Path) -> None
             if source.is_file():
                 assert (Path("bundle") / source.relative_to(ROOT)).as_posix() in identity["sha256"]
 
-    assert config["default_agent"] == "egm"
+    assert config["default_agent"] == "egm-rust"
     assert config["autoupdate"] is False
     assert "model" not in config
     assert len(config["command"]) == 7
@@ -44,7 +44,7 @@ def test_install_preserves_resources_and_native_contract(tmp_path: Path) -> None
         assert alias.resolve() == destination / "bundle/skills" / skill.parent.name
         assert (alias / "SKILL.md").read_bytes() == skill.read_bytes()
         command = config["command"][key]
-        assert command["agent"] == "egm"
+        assert command["agent"] == "egm-rust"
         assert str(alias.resolve() / "SKILL.md") in command["template"]
         assert "$ARGUMENTS" in command["template"]
 
@@ -69,12 +69,12 @@ def test_install_preserves_resources_and_native_contract(tmp_path: Path) -> None
         ]
         assert str(persona) in agent["prompt"]
         assert "Read-only Protocol" not in agent["prompt"]
-    primary = config["agent"]["egm"]
+    primary = config["agent"]["egm-rust"]
     assert primary["permission"]["*"] == "ask"
     assert list(primary["permission"]["read"].items()) == [
         ("*", "allow"), ("*.env", "ask"), ("*.env.*", "ask"), ("*.env.example", "allow"),
     ]
-    assert set(primary["permission"]["task"]) == {"*", *set(config["agent"]) - {"egm"}}
+    assert set(primary["permission"]["task"]) == {"*", *set(config["agent"]) - {"egm-rust"}}
     assert "Omit task_id" in primary["prompt"]
     assert "foreground completion" in primary["prompt"]
 
@@ -176,7 +176,7 @@ def test_required_reads_pass_env_rules(tmp_path: Path) -> None:
         rules = agent["permission"]["read"]
         for path in required:
             assert v1_read_effect(rules, os.path.relpath(path, worktree)) == "allow", (name, path)
-        secret = "ask" if name == "egm" else "deny"
+        secret = "ask" if name == "egm-rust" else "deny"
         for path in (".env", "app/.env", ".env.local", "app/.env.production", "prod.env"):
             assert v1_read_effect(rules, path) == secret, (name, path)
         assert v1_read_effect(rules, "app/.env.example") == "allow"

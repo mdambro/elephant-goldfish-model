@@ -12,11 +12,15 @@ must not be treated as verified Goldfish isolation environments.
 
 ```sh
 claude plugin marketplace add mdambro/elephant-goldfish-model
-claude plugin install egm@egm
+claude plugin install egm-rust@egm-rust
 ```
 
-Enable the installed plugin with `claude plugin enable egm@egm`.
-Start messages with `/egm:egm-brainstorm`, `/egm:egm-draft`, or `/egm:egm-review`.
+The plugin and its marketplace are named `egm-rust` because Claude Code registers
+one marketplace per name, so this fork can coexist with the upstream `egm` plugin.
+To run both, see [Run Next to the Upstream Plugin](upstream_docs.md#run-next-to-the-upstream-plugin).
+
+Enable the installed plugin with `claude plugin enable egm-rust@egm-rust`.
+Start messages with `/egm-rust:egm-brainstorm`, `/egm-rust:egm-draft`, or `/egm-rust:egm-review`.
 Skills retain `disable-model-invocation: true`: their absence from automatic
 skill discovery is expected. The `Skill` tool refuses these skills, so to run
 another EGM skill (for example `egm-review-loop` or `egm-resolve` during review
@@ -36,7 +40,7 @@ instructions file resolves outside the working directory, after following
 symbolic links, ask the user to confirm it before creating the folder or
 writing there. If they decline or no one can confirm, use the working directory
 and say why. Create the folder if it does not exist.
-In Claude Code, `egm:egm-synthesizer` may spawn reviewers (nesting is allowed
+In Claude Code, `egm-rust:egm-synthesizer` may spawn reviewers (nesting is allowed
 up to 3 levels by default), or the main context may dispatch reviewers directly.
 In Claude Cowork, subagents cannot spawn further subagents, so dispatch
 reviewers directly from the main context instead of launching a synthesizer
@@ -80,22 +84,22 @@ Read(//absolute/plugin/path/skills/**)
 On Windows, write the absolute path either with a leading `//` and a lower-case
 drive letter without the colon, or as a native path:
 
-- `Read(//c/Users/<you>/.claude/plugins/cache/egm/egm/<version>/agents/**)`
-- `Read(C:\Users\<you>\.claude\plugins\cache\egm\egm\<version>\agents\**)`
+- `Read(//c/Users/<you>/.claude/plugins/cache/egm-rust/egm-rust/<version>/agents/**)`
+- `Read(C:\Users\<you>\.claude\plugins\cache\egm-rust\egm-rust\<version>\agents\**)`
 
 The form `//C:/Users/...` does not match, and the reads are still denied.
 
 A marketplace install lives in a version folder:
-`.../plugins/cache/<marketplace>/egm/<version>/`. A rule that names one version
+`.../plugins/cache/<marketplace>/egm-rust/<version>/`. A rule that names one version
 stops matching after an update. Replacing only the version segment with `*` keeps
 matching across versions and still covers only this plugin's folders. For example,
 on Windows:
 
 ```text
-Read(//c/Users/<you>/.claude/plugins/cache/egm/egm/*/agents/**)
-Read(//c/Users/<you>/.claude/plugins/cache/egm/egm/*/docs/**)
-Read(//c/Users/<you>/.claude/plugins/cache/egm/egm/*/resources/**)
-Read(//c/Users/<you>/.claude/plugins/cache/egm/egm/*/skills/**)
+Read(//c/Users/<you>/.claude/plugins/cache/egm-rust/egm-rust/*/agents/**)
+Read(//c/Users/<you>/.claude/plugins/cache/egm-rust/egm-rust/*/docs/**)
+Read(//c/Users/<you>/.claude/plugins/cache/egm-rust/egm-rust/*/resources/**)
+Read(//c/Users/<you>/.claude/plugins/cache/egm-rust/egm-rust/*/skills/**)
 ```
 
 Replace the example path; do not copy a guessed cache location. These read rules
@@ -129,7 +133,7 @@ names. Keep the explicit adapter list rather than removing it to silence this no
 ## Reviewer isolation
 
 Spawn a new native Agent of the plugin's registered reviewer type for each
-independent review, for example `egm:egm-zoom-out`. Do not fork the conversation
+independent review, for example `egm-rust:egm-zoom-out`. Do not fork the conversation
 or resume a previous reviewer. Provide only the task, target, persona/standard
 paths, and explicitly supplied Goldfish context; do not copy parent deliberation.
 
@@ -145,7 +149,7 @@ A plugin subagent's `tools` field cannot restrict Write to specific paths, and
 Claude Code ignores `hooks` and `permissionMode` in plugin subagents. The
 adapter's rule to write only the requested report or brief is therefore an
 instruction, not a host-enforced limit. Writes still follow the session's
-permission rules. When you spawn `egm:egm-synthesizer`, name the artifact
+permission rules. When you spawn `egm-rust:egm-synthesizer`, name the artifact
 directory you are using in its task. Otherwise it never sees a line from the
 user's prompt, and it drops a folder outside the working directory that only
 agent instructions name. It has no shell, so it checks that path as written and

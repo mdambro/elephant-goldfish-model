@@ -35,7 +35,7 @@ an existing release. Fix a failed build before creating a new candidate version.
 For local preparation, use a fresh output directory:
 
 ```sh
-python scripts/prepare_release.py --tag v0.1.0 --commit "$(git rev-parse HEAD)" --output /tmp/egm-0.1.0-candidate
+python scripts/prepare_release.py --tag v0.2.1 --commit "$(git rev-parse HEAD)" --output /tmp/egm-0.2.1-candidate
 ```
 
 The local command checks manifest versions and builds artifacts. It does not
@@ -53,8 +53,8 @@ run these commands from that directory:
 ```sh
 sha256sum -c SHA256SUMS
 for archive in egm-claude-*.zip egm-openai-*.zip; do
-  gh attestation verify "$archive" --repo google/elephant-goldfish-model \
-    --signer-workflow google/elephant-goldfish-model/.github/workflows/release.yml \
+  gh attestation verify "$archive" --repo mdambro/elephant-goldfish-model \
+    --signer-workflow mdambro/elephant-goldfish-model/.github/workflows/release.yml \
     --source-ref refs/heads/main || exit 1
 done
 ```

@@ -83,7 +83,7 @@ def install(destination: Path) -> Path:
             "Do not retrieve unsolicited history, memory, or earlier reviewer findings. "
             "Report inaccessible required files as an incomplete review.",
         }
-    agents["egm"] = {
+    agents["egm-rust"] = {
         "description": "EGM orchestrator (experimental OpenCode V1)",
         "mode": "primary",
         "color": "#1B6EF3",
@@ -116,14 +116,14 @@ def install(destination: Path) -> Path:
         (skills / skill_name).symlink_to(skill.parent, target_is_directory=True)
         commands[skill_name] = {
             "description": f"Run {skill_name} (experimental)",
-            "agent": "egm",
+            "agent": "egm-rust",
             "template": context + f"Read and execute {skill}.\nUser request: $ARGUMENTS",
         }
     config = destination / "opencode.json"
     config.write_text(json.dumps({
         "$schema": "https://opencode.ai/config.json",
         "autoupdate": False,
-        "default_agent": "egm",
+        "default_agent": "egm-rust",
         "skills": {"paths": [str(skills)]},
         "agent": agents,
         "command": commands,

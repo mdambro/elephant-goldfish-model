@@ -1,5 +1,5 @@
 ---
-name: egm-rust
+name: egm-rust-reviewer
 description: Principal Rust Engineer persona verifying idiomatic Rust design, explicit ownership, error, concurrency, and API decisions, and justified use of design patterns.
 license: Apache-2.0
 ---

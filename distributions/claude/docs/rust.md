@@ -9,7 +9,7 @@ to use it.
 | Stage | Behavior |
 | --- | --- |
 | `/egm-draft` | Records `Language: Rust (default)` unless you, the brief, or the project's root docs name another language. Adds a `Rust Design Decisions` subsection to the Technical Plan and asks you to choose when a Rust decision has more than one defensible answer. Implementation plans include Cargo changes, Rust signatures, error enums, derives, and `cargo` verification commands. |
-| `/egm-review` | Stage 7 (feature spec) and Stage 9 (implementation plan) add the `egm-rust` reviewer, which applies the [Rust Standard](../resources/document_standards/rust-standard.md). |
+| `/egm-review` | Stage 7 (feature spec) and Stage 9 (implementation plan) add the `egm-rust-reviewer` reviewer, which applies the [Rust Standard](../resources/document_standards/rust-standard.md). |
 | `/egm-review-loop` | Accepts `rust` as a reviewer and `rust-standard` as a standard. |
 
 The Rust Standard checks two directions: Rust decisions left open, and patterns
@@ -44,13 +44,14 @@ follows this standard, and ends with a feature built with EGM.
 Install EGM from this fork (`mdambro/elephant-goldfish-model`), as the
 [README](../README.md#install) shows. Installing from
 `google/elephant-goldfish-model` gives the upstream plugin without the Rust
-profile.
+profile. To follow upstream documentation with this fork, see
+[Using the Upstream Documentation](upstream_docs.md).
 
 ## Use Another Language
 
 State it when you draft ("this service is in Go"), or put it in the project's
 root `README.md` or `AGENTS.md`. The draft records it in the `Language` field,
-and `egm-rust` reports that the standard does not apply.
+and `egm-rust-reviewer` reports that the standard does not apply.
 
 ## Set Up a Rust Project
 

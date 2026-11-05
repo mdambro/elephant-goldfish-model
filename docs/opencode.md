@@ -30,17 +30,17 @@ npm install --prefix /absolute/opencode-v1 opencode-ai@1.18.29
 
 Inspect the generated `opencode.json` and `installation.json` before use.
 The latter records package identity and SHA-256 hashes of all bundled files.
-The native configuration contains seven commands, eight reviewers, and the `egm` primary agent.
+The native configuration contains seven commands, eight reviewers, and the `egm-rust` primary agent.
 Native skill aliases use the canonical frontmatter names and link to the unchanged skill directories.
 
 Start OpenCode from the project directory with the candidate configuration:
 
 ```sh
-OPENCODE_CONFIG=/absolute/egm-opencode-candidate/opencode.json opencode --agent egm
+OPENCODE_CONFIG=/absolute/egm-opencode-candidate/opencode.json opencode --agent egm-rust
 ```
 
 Model calls require separate user authorization. Installation and version checks do not require model calls.
-Select `egm` before native skill use. Other primary agents do not receive this adapter's dispatch instructions.
+Select `egm-rust` before native skill use. Other primary agents do not receive this adapter's dispatch instructions.
 For review text, use an ordinary message rather than a slash command. For example:
 
 ```text
@@ -63,7 +63,7 @@ Resolve `agents/`, `resources/`, and `docs/` against that root.
 Resolve `references/` against the canonical skill directory, after resolving its alias.
 Resolve user files against the project directory. Never substitute project files for bundled personas.
 
-Dispatch reviewers directly from `egm` with the V1 `task` tool.
+Dispatch reviewers directly from `egm-rust` with the V1 `task` tool.
 Set `subagent_type` to the persona's canonical frontmatter name.
 Supply `description` and `prompt`. Omit `task_id` to create a fresh session.
 Use foreground tasks. Do not enable background dispatch or reuse a reviewer session.

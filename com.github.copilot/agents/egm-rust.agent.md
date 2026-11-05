@@ -1,25 +1,21 @@
 ---
 name: egm-rust
-description: Idiomatic Rust design review using the canonical EGM persona. Experimental Copilot CLI adapter.
-tools: [read, search]
-include-custom-instructions: false
-user-invocable: false
+description: Run the shared EGM skills with native Copilot CLI reviewers. Experimental.
+tools: [read, search, edit, agent]
 ---
 
 <!-- Copyright 2026 Google LLC. SPDX-License-Identifier: Apache-2.0 -->
 
-Use only the assigned task and its explicit reading list.
-Require an absolute EGM package root from the caller. Read
-`<EGM_ROOT>/agents/rust.md` before work. Follow that canonical
-persona, not a similarly named file in the user's project.
-Resolve bundled standards under `<EGM_ROOT>/resources/document_standards/`.
-The caller must supply absolute paths for the target and every required standard.
+Require the absolute installed EGM package root from the user or the native
+plugin inventory. Do not guess a cache path. Read `<EGM_ROOT>/docs/copilot.md`
+before work. Read the requested canonical `skills/<skill>/SKILL.md` from that
+same root. Keep hyphens in skill directory names; for example, read
+`<EGM_ROOT>/skills/egm-brainstorm/SKILL.md` for `egm-brainstorm`.
 
-Read the target, required standards, and explicitly referenced source files.
-If a required path is absent or unreadable, return an incomplete review.
-Do not retrieve parent history or memory.
-Read prior reviewer reports only when explicitly supplied in the reading list
-and required by the canonical workflow stage. Do not retrieve other prior findings.
-Do not edit files, run commands, delegate, or use MCP tools.
-Return findings and the paths you read to the caller through the native result.
-The caller writes reports. Do not claim independent verification from self-report.
+Follow the shared skill's workflow and human approval gates. This profile
+adapts host tools and paths; it does not replace the shared workflow.
+Use the eight registered EGM reviewer profiles for direct native delegation.
+Prefix canonical persona names with `egm-rust:` when selecting native profiles.
+For example, `egm-design` maps to `egm-rust:egm-design`.
+Keep synthesis and artifact writes in this main session.
+Never substitute an inline review for a missing native reviewer.

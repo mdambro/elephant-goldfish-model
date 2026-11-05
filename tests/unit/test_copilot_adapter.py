@@ -24,7 +24,7 @@ def test_copilot_profiles_use_canonical_read_only_reviewers(repo_root: Path) -> 
         frontmatter(repo_root / f"agents/{p}.md")["name"] for p in REVIEWERS
     }
     assert {p.stem.removesuffix(".agent") for p in profiles.glob("*.agent.md")} == (
-        expected_names | {"egm"}
+        expected_names | {"egm-rust"}
     )
     for persona in REVIEWERS:
         canonical = repo_root / f"agents/{persona}.md"
@@ -44,7 +44,7 @@ def test_copilot_profiles_use_canonical_read_only_reviewers(repo_root: Path) -> 
         assert "incomplete review" in text
         assert "Do not retrieve parent history" in text
         assert "${" not in text  # No undocumented Markdown variable expansion.
-    entry = profiles / "egm.agent.md"
+    entry = profiles / "egm-rust.agent.md"
     assert frontmatter(entry)["tools"] == ["read", "search", "edit", "agent"]
     assert "<EGM_ROOT>/docs/copilot.md" in entry.read_text(encoding="utf-8")
     assert "<EGM_ROOT>/skills/egm-brainstorm/SKILL.md" in entry.read_text(encoding="utf-8")
@@ -176,7 +176,7 @@ def test_copilot_native_offline_discovery(
                 params = {"sessionId": session["sessionId"]}
                 agents = rpc("session.agent.list", params)["agents"]
                 profiles = copilot_package / "com.github.copilot/agents"
-                expected = {f"egm:{frontmatter(p)['name']}": p
+                expected = {f"egm-rust:{frontmatter(p)['name']}": p
                             for p in profiles.glob("*.agent.md")}
                 loaded = {a["id"]: a for a in agents if a["source"] == "plugin"}
                 assert set(loaded) == set(expected)
@@ -191,7 +191,7 @@ def test_copilot_native_offline_discovery(
                 skills = rpc("session.skills.list", params)["skills"]
                 loaded_skills = {s["commandName"]: s for s in skills
                                  if s["source"] == "plugin"}
-                expected_skills = {f"egm:{frontmatter(p)['name']}": p
+                expected_skills = {f"egm-rust:{frontmatter(p)['name']}": p
                                    for p in (copilot_package / "skills").glob("*/SKILL.md")}
                 assert set(loaded_skills) == set(expected_skills)
                 for name, path in expected_skills.items():

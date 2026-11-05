@@ -156,7 +156,7 @@ this strict generation order:
     *   **Priority 3: Interactive Chat Prompt**: If neither file exists, prompt
         the user in chat for the feature's problem statement, goals, and
         technical context, or suggest that the user start the `egm-brainstorm`
-        skill with the host's command form (for example `/egm:egm-brainstorm`
+        skill with the host's command form (for example `/egm-rust:egm-brainstorm`
         in Claude Code and agy CLI, or the skill picker in Codex).
 3.  **Verify State**: Parse the document. Present a quick confirmation to the
     user to ensure we are starting with the correct context.
@@ -330,5 +330,5 @@ strictly:
 6.  **Handoff**: Provide a clickable link to the finalized design and recommend
     that the user review it by starting the `egm-review` skill on
     `<DESIGN_PATH>` with the host's command form (for example
-    `/egm:egm-review <DESIGN_PATH>` in Claude Code and agy CLI, or the skill
+    `/egm-rust:egm-review <DESIGN_PATH>` in Claude Code and agy CLI, or the skill
     picker in Codex).

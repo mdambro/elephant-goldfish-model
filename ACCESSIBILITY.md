@@ -7,7 +7,7 @@ welcome.
 ## Scope and goals
 
 This statement covers the repository's documentation, shared skill content,
-and the [EGM website](https://egm.dev).
+and the [upstream EGM website](https://egm.dev), which documents the upstream plugin ([differences](docs/upstream_docs.md)).
 
 Our goal for the website is the Web Content Accessibility Guidelines
 [WCAG 2.2 Level AA](https://www.w3.org/TR/WCAG22/).
@@ -47,7 +47,7 @@ replace fixing the underlying barrier.
 
 ## Report an accessibility barrier
 
-Use the [bug report template](https://github.com/google/elephant-goldfish-model/issues/new?template=bug_report.md)
+Use the [bug report template](https://github.com/mdambro/elephant-goldfish-model/issues/new?template=bug_report.md)
 and identify the report as an accessibility issue. Include what you can:
 
 - The page, document, skill, or task affected.

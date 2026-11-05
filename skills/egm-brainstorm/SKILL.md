@@ -251,14 +251,14 @@ these into Alternatives Considered and has no other source for them.]
             user that once feedback is gathered, a detailed design can be
             initiated by starting the `egm-draft` skill on
             `docs/designs/<feature_name>.md` with the host's command form (for
-            example `/egm:egm-draft docs/designs/<feature_name>.md` in Claude
+            example `/egm-rust:egm-draft docs/designs/<feature_name>.md` in Claude
             Code and agy CLI, or the skill picker in Codex).
     *   **Option 1: `Proceed to egm-draft (Initialize formal design
         document)`**:
         *   Confirm that `concepts_brief.md` is saved in the working directory
             or artifact directory.
         *   Instruct the user to start the `egm-draft` skill with the host's
-            command form (for example `/egm:egm-draft` in Claude Code and agy
+            command form (for example `/egm-rust:egm-draft` in Claude Code and agy
             CLI, or the skill picker in Codex), noting that it automatically
             ingests `concepts_brief.md` as its Priority 1 intake source.
     *   **Option 2: `Continue refining concepts_brief.md in ideation mode`**:
