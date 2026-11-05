@@ -35,7 +35,7 @@ For the **Antigravity App** and **Antigravity for IDEs** (Visual Studio Code ext
 
 ```sh
 claude plugin marketplace add mdambro/elephant-goldfish-model
-claude plugin install egm@egm
+claude plugin install egm@egm-rust
 ```
 
 ### Codex

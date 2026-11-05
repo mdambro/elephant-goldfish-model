@@ -12,11 +12,11 @@ text.
 | Antigravity App | Run `/plugin` or see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
 | Antigravity for IDEs | Run `/plugin` or see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
 | Antigravity IDE (standalone) | Not supported; see [installation instructions](#antigravity-app-and-antigravity-for-ides) |
-| Claude Code | `claude plugin marketplace add mdambro/elephant-goldfish-model && claude plugin install egm@egm` |
+| Claude Code | `claude plugin marketplace add mdambro/elephant-goldfish-model && claude plugin install egm@egm-rust` |
 | Claude Cowork | Install from claude.ai/plugins or the Cowork plugin panel via marketplace `mdambro/elephant-goldfish-model` |
 | Codex | `codex plugin marketplace add mdambro/elephant-goldfish-model && codex plugin add egm@egm` |
 | ChatGPT | Personal testing: Plugins > Add > Upload plugin archive; see [packaging](codex.md#chatgpt). Workspace import: Admin > Plugins > Add > Import marketplace, repo URL `https://github.com/mdambro/elephant-goldfish-model`, path `.agents/plugins` |
-| omp | `omp plugin marketplace add mdambro/elephant-goldfish-model && omp plugin install egm@egm` |
+| omp | `omp plugin marketplace add mdambro/elephant-goldfish-model && omp plugin install egm@egm-rust` |
 | Muse | `git clone https://github.com/mdambro/elephant-goldfish-model.git && muse plugins install ./elephant-goldfish-model --scope user && muse plugins approve egm` |
 
 Install the whole plugin. Skill-only installers that copy `skills/` alone

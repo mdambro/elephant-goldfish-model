@@ -12,10 +12,13 @@ must not be treated as verified Goldfish isolation environments.
 
 ```sh
 claude plugin marketplace add mdambro/elephant-goldfish-model
-claude plugin install egm@egm
+claude plugin install egm@egm-rust
 ```
 
-Enable the installed plugin with `claude plugin enable egm@egm`.
+The marketplace is named `egm-rust` because Claude Code registers one marketplace
+per name, so this fork can coexist with the upstream `egm` marketplace.
+
+Enable the installed plugin with `claude plugin enable egm@egm-rust`.
 Start messages with `/egm:egm-brainstorm`, `/egm:egm-draft`, or `/egm:egm-review`.
 Skills retain `disable-model-invocation: true`: their absence from automatic
 skill discovery is expected. The `Skill` tool refuses these skills, so to run
