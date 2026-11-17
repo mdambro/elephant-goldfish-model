@@ -1,7 +1,7 @@
 {
   "name": "egm-rust",
   "displayName": "Elephant-Goldfish Model",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Draft specs, review designs, and check implementation drift.",
   "author": {
     "name": "Google"
