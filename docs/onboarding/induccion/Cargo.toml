@@ -11,8 +11,8 @@ rust-version = "1.85"
 domain = { path = "crates/domain" }
 application = { path = "crates/application" }
 proto = { path = "crates/proto" }
-# Business-rule validations (change to "0.2" once 0.2.0 is published on crates.io)
-validations_rs = { git = "https://github.com/mdambro/validations_rs", branch = "release/0.2.0" }
+# Business-rule validations, pinned to the 0.3.0 commit (change to "0.3" once it is published on crates.io)
+validations_rs = { git = "https://github.com/mdambro/validations_rs", rev = "b5bf2ba" }
 # Stack
 anyhow = "1"
 axum = "0.8"

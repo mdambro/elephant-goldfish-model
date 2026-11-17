@@ -1,4 +1,10 @@
+//! Value objects: values defined by their content, valid by construction.
+
 use crate::errors::DomainError;
+
+/// Identifier of a user.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct UserId(pub u64);
 
 /// An email address that passed the format check. The only way to build one
 /// is `TryFrom<&str>`, so holding an `Email` proves the check ran.

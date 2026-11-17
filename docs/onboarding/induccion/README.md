@@ -8,10 +8,13 @@ Servicio de registro de usuarios que acompaña la guía *Patrones, arquitectura 
 
 | Crate | Capa | Qué tiene |
 | --- | --- | --- |
-| `crates/domain` | Dominio | `User`, el value object `Email`, `DomainError`. |
-| `crates/application` | Aplicación | `RegisterUserUseCase`, el puerto `UserRepository`, las reglas de `validations_rs`, `RegisterUserError`. |
+| `crates/domain` | Dominio | `entities` (`User`), `value_objects` (`Email`, `UserId`), `errors` (`DomainError`). |
+| `crates/application` | Aplicación | `register_user` (comando, error, reglas propias y `RegisterUserUseCase`), `ports` (`UserRepository`), `rules` (reglas compartidas, como `EmailNotTaken`). |
 | `crates/proto` | Contrato gRPC | `users.proto` y el código generado. |
-| `crates/infrastructure` | Infraestructura | Handlers de axum, servicio de tonic, repositorio PostgreSQL y `main`. |
+| `crates/infrastructure` | Infraestructura | `http` (axum), `grpc` (tonic), `persistence` (PostgreSQL) y `main`. |
+
+Los archivos se agrupan por responsabilidad, no uno por tipo: un módulo reúne lo que cambia junto
+(por ejemplo, el comando, el error y el caso de uso de `register_user`) y deja privado lo demás.
 
 ## Requisitos
 
@@ -52,6 +55,6 @@ grpcurl -plaintext -import-path crates/proto/proto -proto users/v1/users.proto \
 
 ## Dependencia de `validations_rs`
 
-Mientras la versión 0.2.0 no esté publicada en crates.io, el workspace la toma de la rama
-`release/0.2.0` del repositorio. Cuando se publique, cambiá esa línea del `Cargo.toml` del
-workspace por `validations_rs = "0.2"`.
+Mientras la versión 0.3.0 no esté publicada en crates.io, el workspace la toma del repositorio,
+fijada a un commit (`rev`), que sigue disponible aunque se borre la rama. Cuando se publique,
+cambiá esa línea del `Cargo.toml` del workspace por `validations_rs = "0.3"`.

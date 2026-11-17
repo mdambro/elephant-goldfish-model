@@ -78,7 +78,28 @@ def test_onboarding_material_is_present() -> None:
                "docs/onboarding/induccion/Cargo.toml",
                "docs/onboarding/induccion/crates/proto/proto/users/v1/users.proto"):
     assert (ROOT / path).is_file(), f"Missing {path}"
-  assert "AsyncValidationError::CheckFailed" in read(STANDARD)
+  assert "AsyncError::CheckFailed" in read(STANDARD)
+
+
+def test_rust_standard_encapsulates_at_the_module() -> None:
+  text = read(STANDARD)
+  assert "**Encapsulation at the Module**" in text
+  assert "**Atomized Code**" in text
+  assert "Each public type lives in its own file" not in text
+
+
+def test_validation_uses_the_current_validations_rs_api() -> None:
+  text = read(STANDARD)
+  assert "`validations_rs` 0.3" in text
+  for item in ("`ensure`", "`validate_all`", "`validate_async`", "`RuleExt`"):
+    assert item in text, f"Missing {item} in {STANDARD}"
+  old_api = ("BusinessRuleError", "BusinessLogicValidation", "start_validations",
+             "collect_validations", "AsyncValidationError", "PredicateValidation")
+  workspace = ROOT / "docs/onboarding/induccion/crates"
+  for path in [STANDARD, *workspace.rglob("*.rs")]:
+    source = read(path) if isinstance(path, str) else path.read_text()
+    for name in old_api:
+      assert name not in source, f"{path} still uses the 0.2 API ({name})"
 
 
 def test_plugin_is_named_egm_rust_on_every_host() -> None:

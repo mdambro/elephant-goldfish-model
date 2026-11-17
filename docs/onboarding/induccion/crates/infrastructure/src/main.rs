@@ -9,7 +9,7 @@ use std::sync::Arc;
 
 use anyhow::Context;
 use application::ports::UserRepository;
-use application::use_cases::RegisterUserUseCase;
+use application::register_user::RegisterUserUseCase;
 use deadpool_postgres::{Config, Runtime};
 use proto::users::v1::user_service_server::UserServiceServer;
 use tokio_postgres::NoTls;

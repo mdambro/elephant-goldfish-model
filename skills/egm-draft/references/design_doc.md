@@ -101,13 +101,16 @@ problem.
 *   **Delivery**: [REST with axum, gRPC with tonic and the `proto` crate,
     Tauri commands, Dioxus server functions, or a combination; ports and
     listeners.]
-*   **Responsibilities**: [One struct per use case (`execute`) and per
-    validation rule; adapters only translate.]
+*   **Responsibilities**: [Modules of each crate and what each makes
+    public; one module per use case (command, error, own rules, and a struct
+    with `execute`); rules as functions, types only with state; adapters only
+    translate.]
 *   **Persistence**: [`tokio-postgres` with `deadpool-postgres`, transaction
     sharing across repositories, migrations tool.]
 *   **Validation**: [Domain newtype constructors for format invariants;
-    `validations_rs` rules for business rules, sync before async; mapping of
-    rule codes to the transport.]
+    `validations_rs` rules and their codes for business rules, sync
+    (`validate` or `validate_all`) before async (`validate_async`); mapping of
+    rule codes and fields to the transport.]
 *   **Domain Model**: [Enums for closed sets and runtime states, newtypes for
     validated values, typestate for fixed in-process flows.]
 *   **Errors**: [Error type per layer, typed versus opaque, and where errors

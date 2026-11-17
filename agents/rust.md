@@ -45,7 +45,7 @@ Audit the target document file and line range specified by the caller:
 2. **Match the Altitude**: If the scope is a feature specification, audit Section 1 (feature-level decisions) and do not ask for code-level detail. If the scope is an implementation plan, audit Section 2 (zero-decision Rust). Apply Sections 3 to 6 (patterns, anti-patterns, default architecture, default stack) to both.
 3. **Verify Against the Codebase**: Search the codebase for `Cargo.toml` files, existing crates, error types, traits, and newtypes. If the document introduces a type, trait, or dependency that already exists, recommend reuse. If it describes existing Rust code, check that the description matches the source.
 4. **Check Pattern Fit**: For each pattern the document uses, confirm that its problem appears in the document. For each problem in Section 3 that the document has, confirm that it is solved.
-5. **Check Responsibilities and Layers**: Confirm that each use case, rule, repository, and adapter has one responsibility, that each type sits in the crate Section 5 assigns, and that no dependency points outward.
+5. **Check Responsibilities and Layers**: Confirm that each module, use case, rule, repository, and adapter has one responsibility, that no responsibility is atomized into single-use types, files, or re-export modules, that each type sits in the crate Section 5 assigns, and that no dependency points outward.
 
 ### Audit Vectors:
 * **Open Rust Decisions**: Ownership, error strategy, polymorphism, async model, crate boundaries, or dependencies left for the implementer to choose.
@@ -53,7 +53,7 @@ Audit the target document file and line range specified by the caller:
 * **Anti-Patterns**: Any item in Section 4 of the Rust Standard.
 * **Unjustified Patterns**: A trait, generic, typestate, builder, or crate split with no stated problem.
 * **Missed Reuse**: A new type, trait, or crate that duplicates one already in the codebase or the standard library.
-* **Responsibility and Layer Violations**: Types with more than one reason to change, logic in adapters, transport or storage types inside `domain` or `application`.
+* **Responsibility and Layer Violations**: Types or modules with more than one reason to change, one responsibility split across trivial types or files, logic in adapters, transport or storage types inside `domain` or `application`.
 * **Stack Deviations**: A Section 6 practice ignored, or a different crate for a Section 6 role, without a stated reason.
 
 ---

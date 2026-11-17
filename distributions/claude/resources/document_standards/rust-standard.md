@@ -74,21 +74,28 @@ They are architecture, so they belong above the implementation plan.
 *   **Dependencies**: Prefer the standard library and established crates over
     custom code. Justify each new crate by need, maintenance activity, and
     license. Do not add a crate for a few lines of code.
-*   **Single Responsibility (Author Preference)**: Each type has one reason
-    to change. One use case is one struct with one public `execute` method.
-    One validation rule is one struct. One repository trait serves one
+*   **Single Responsibility (Author Preference)**: Each module, type, and
+    function has one reason to change. A use case is a struct that holds its
+    dependencies (ports, configuration) and has one public `execute` method.
+    A business rule is a function (Section 6); it becomes a type only when it
+    holds configuration or a dependency. One repository trait serves one
     aggregate. Adapters (HTTP handlers, gRPC services, Tauri commands, Dioxus
-    server functions) only translate between the transport and a use case.
-    Each public type lives in its own file, grouped in modules by role, as
-    packages are grouped in Kotlin. A use case that grows a second
-    responsibility is split, and the two are composed by a third use case or
-    by the caller.
+    server functions) only translate between the transport and a use case. A
+    use case that grows a second responsibility is split, and the two are
+    composed by a third use case or by the caller.
+*   **Encapsulation at the Module**: A module groups what changes together and
+    keeps the rest private: a use case module holds its command, its error, its
+    own rules, and the use case; code shared by several use cases lives in its
+    own module (for example `ports`, `rules`). Files follow modules, not types:
+    do not create one file per type, a `mod.rs` that only re-exports one file,
+    or a type or function for a step used once. State the modules of each
+    crate and what each one makes public.
 *   **Validation**: Format invariants of a single value (an email, a code, a
     range) belong to a domain newtype with a fallible constructor
     (`TryFrom`, `FromStr`, or `parse`) and the domain error type. Business
     rules that combine fields, depend on state, or need I/O belong to the
-    application layer as rules of the `validations_rs` crate (Section 6), run
-    at the start of the use case. State which rule protects each invariant.
+    application layer as `validations_rs` rules (Section 6), run at the start
+    of the use case. State which rule protects each invariant and its code.
 
 ## 2. Implementation-Level Decisions (Zero-Decision Rust)
 
@@ -184,6 +191,12 @@ Report these as findings:
 *   **Blocking Inside Async**: Blocking calls on an async executor thread.
 *   **Multi-Responsibility Types**: A use case, service, or "manager" with
     several public operations, or a rule that checks unrelated conditions.
+*   **Atomized Code**: One responsibility scattered across many small units:
+    a struct or file per trivial rule or helper, `mod.rs` files that only
+    re-export, wrapper types or functions that only forward a call, or a trait
+    for a one-line operation. It adds indirection without a boundary. Keep a
+    single-use step inline or as a private function of the module that uses
+    it, and give a rule a type only when it holds state.
 *   **Logic in Adapters**: Business rules or validation inside axum handlers,
     tonic services, Tauri commands, Dioxus components, or server functions.
 *   **Leaking Transport or Storage Types**: `prost` messages, axum extractors,
@@ -199,7 +212,7 @@ document justifies it (Zoom-Out Standard, YAGNI).
 | Crate | Contains | May depend on |
 | --- | --- | --- |
 | `domain` | Entities, value objects (newtypes), domain enums and states, domain error enums. Pure logic, no I/O. | `std`, small pure crates (for example `thiserror`, `uuid`) |
-| `application` | One struct per use case with an `execute` method; ports (repository and gateway traits with `Send + Sync`); command and result types; business-rule validations (`validations_rs`); business-rule configuration as a struct injected with `Arc`; application error enums. | `domain`, `validations_rs`, `thiserror`; no transport, storage, or UI crates |
+| `application` | One module per use case with its command, result, error, own rules, and a use case struct with an `execute` method; ports (repository and gateway traits with `Send + Sync`); shared business rules (`validations_rs`); business-rule configuration as a struct injected with `Arc`. | `domain`, `validations_rs`, `thiserror`; no transport, storage, or UI crates |
 | `proto` | Only when gRPC is chosen. The `.proto` files, a `build.rs` that runs `tonic-prost-build`, and the generated code, re-exported. No hand-written logic. | `tonic`, `prost`, `tonic-prost`; build dependency `tonic-prost-build` |
 | `infrastructure` | Adapters and the composition root: axum routers and handlers or tonic service implementations, `tokio-postgres` repositories, mapping between transport or storage types and domain types, error mapping to HTTP or gRPC status, configuration loading, `main`. | `application`, `domain`, `proto` (when present), the stack crates |
 
@@ -281,21 +294,24 @@ architecture decision for the author.
     props.
 *   **Errors: `thiserror`** in `domain`, `application`, and adapters;
     `anyhow` only in `main` and other top-level binaries.
-*   **Business-rule validation: `validations_rs` 0.2.** One struct per rule
-    implementing `BusinessLogicValidation<T>` (synchronous) or
-    `AsyncBusinessLogicValidation<T>` (I/O). The use case runs synchronous
-    rules first with `start_validations`, then asynchronous rules with
-    `start_validations_async`, so cheap rules fail before I/O. Inputs whose
-    caller must see every problem at once (forms, multi-field requests) use
-    `collect_validations`. An asynchronous rule returns
-    `AsyncValidationError::Violation` when the data breaks the rule and
-    `AsyncValidationError::CheckFailed` (with the cause) when the rule could
-    not be checked; the application error keeps them in separate variants.
-    Adapters map a violation's `BusinessRuleError.code` to the transport
-    (HTTP 422, gRPC `FailedPrecondition`, a serialized Tauri or Dioxus error)
-    and a failed check to a transient error (HTTP 503, gRPC `Unavailable`),
-    and never parse a message. Rules that need the current time take it from
-    `with_clock` in tests.
+*   **Business-rule validation: `validations_rs` 0.3.** A rule is a function
+    `fn(&T) -> Result<(), Violation>` written with `ensure`, with its own
+    `RuleCode` constant; it is a type implementing `Rule<T>` only when it holds
+    configuration, and `AsyncRule<T>` when it needs I/O. Field checks use the
+    `rules` catalog with `RuleExt` (`NotBlank.on("name", |c: &Cmd| &c.name)`,
+    `Min(18).with_code(UNDERAGE)`). The use case runs synchronous rules first
+    with `validate(&command, &[..])`, which stops at the first violation, then
+    asynchronous rules with `validate_async`, so cheap rules fail before I/O.
+    Inputs whose caller must see every problem at once (forms, multi-field
+    requests) use `validate_all`, which returns `Violations`. An asynchronous
+    rule returns `AsyncError::Violation` when the data breaks the rule and
+    `AsyncError::CheckFailed` (with the cause) when the rule could not be
+    checked; the application error keeps them in separate variants. Adapters
+    map `Violation::code()` and `field()` to the transport (HTTP 422, gRPC
+    `FailedPrecondition`, a serialized Tauri or Dioxus error, or the `serde`
+    feature) and a failed check to a transient error (HTTP 503, gRPC
+    `Unavailable`), and never parse a message. Date rules take `with_clock` in
+    tests.
 
 ## 7. Severity Guide
 
@@ -305,9 +321,9 @@ architecture decision for the author.
     that can represent invalid states the requirements forbid.
 *   **🟡 Major**: An anti-pattern in a proposed API; a missing Section 2 item
     (Cargo details, signatures, error variants, `Send + Sync`); a pattern used
-    without its problem; a type with more than one responsibility; a
-    dependency that points outward (Section 5); a Section 6 practice ignored
-    without a stated reason.
+    without its problem; a type with more than one responsibility, or one
+    responsibility atomized across many units; a dependency that points
+    outward (Section 5); a Section 6 practice ignored without a stated reason.
 *   **🟢 Nit**: Derives, naming conventions, a missing `Language` field, or
     documentation of public items.
 
