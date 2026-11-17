@@ -1,3 +1,0 @@
-/// Identifier of a user.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct UserId(pub u64);

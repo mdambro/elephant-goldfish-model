@@ -4,15 +4,14 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::task::{Context, Poll, Waker};
 
-use application::commands::RegisterUserCommand;
-use application::errors::RegisterUserError;
-use application::ports::{RepoFuture, UserRepository};
-use application::use_cases::RegisterUserUseCase;
-use application::validations::EmailNotTaken;
+use application::ports::{RepoFuture, RepositoryError, UserRepository};
+use application::register_user::{
+    RegisterUserCommand, RegisterUserError, RegisterUserUseCase, TERMS_NOT_ACCEPTED, UNDERAGE,
+};
+use application::rules::EMAIL_TAKEN;
 use domain::entities::User;
 use domain::errors::DomainError;
 use domain::value_objects::{Email, UserId};
-use validations_rs::MinValidation;
 
 /// Test double: the port implemented in memory.
 #[derive(Default)]
@@ -59,12 +58,19 @@ fn registers_then_rejects_duplicates_and_rule_violations() {
     assert_eq!(user.email.as_str(), "ana@example.com");
 
     match block_on(use_case.execute(command("ana@example.com", 30, true))) {
-        Err(RegisterUserError::BusinessRule(e)) => assert_eq!(e.code, EmailNotTaken::CODE),
+        Err(RegisterUserError::BusinessRule(v)) => assert_eq!(v.code(), EMAIL_TAKEN),
         other => panic!("expected EMAIL_TAKEN, got {other:?}"),
     }
     match block_on(use_case.execute(command("teen@example.com", 16, true))) {
-        Err(RegisterUserError::BusinessRule(e)) => assert_eq!(e.code, MinValidation::<u8>::CODE),
-        other => panic!("expected VALUE_BELOW_MIN, got {other:?}"),
+        Err(RegisterUserError::BusinessRule(v)) => {
+            assert_eq!(v.code(), UNDERAGE);
+            assert_eq!(v.field(), Some("age"));
+        }
+        other => panic!("expected UNDERAGE, got {other:?}"),
+    }
+    match block_on(use_case.execute(command("luz@example.com", 30, false))) {
+        Err(RegisterUserError::BusinessRule(v)) => assert_eq!(v.code(), TERMS_NOT_ACCEPTED),
+        other => panic!("expected TERMS_NOT_ACCEPTED, got {other:?}"),
     }
     assert!(matches!(
         block_on(use_case.execute(command("no-arroba", 30, true))),
@@ -77,7 +83,7 @@ struct DownUsers;
 
 impl UserRepository for DownUsers {
     fn exists_by_email<'a>(&'a self, _: &'a Email) -> RepoFuture<'a, bool> {
-        Box::pin(async { Err(application::ports::RepositoryError("connection refused".into())) })
+        Box::pin(async { Err(RepositoryError("connection refused".into())) })
     }
     fn next_id(&self) -> RepoFuture<'_, UserId> {
         Box::pin(async { Ok(UserId(0)) })

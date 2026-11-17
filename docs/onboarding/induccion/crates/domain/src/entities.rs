@@ -1,3 +1,5 @@
+//! Entities: values with an identity that lasts over time.
+
 use crate::value_objects::{Email, UserId};
 
 /// A registered user.

@@ -1,8 +1,21 @@
-mod api_error;
-mod app_state;
-mod dto;
-mod register_user_handler;
-mod router;
+//! REST adapter (axum): translates HTTP to the use cases and back. No business logic here.
 
-pub use app_state::AppState;
-pub use router::router;
+mod api_error;
+mod users;
+
+use std::sync::Arc;
+
+use application::register_user::RegisterUserUseCase;
+use axum::routing::post;
+use axum::Router;
+
+/// State shared by the HTTP handlers: one field per use case the API exposes.
+#[derive(Clone)]
+pub struct AppState {
+    pub register_user: Arc<RegisterUserUseCase>,
+}
+
+/// Routes of the REST API.
+pub fn router(state: AppState) -> Router {
+    Router::new().route("/users", post(users::register_user)).with_state(state)
+}

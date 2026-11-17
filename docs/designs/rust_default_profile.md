@@ -43,8 +43,9 @@ Three gaps lead to Rust designs that leave decisions to the implementer:
 *   Non-Rust designs still work: the Rust reviewer returns "not applicable".
 *   The author's defaults are explicit and checked: Clean Architecture crates
     (`domain`, `application`, `infrastructure`, and `proto` for gRPC), one
-    responsibility per type, and the stack (`tokio`, `axum`, `tonic`,
-    `tokio-postgres`, Tauri, Dioxus, `validations_rs`).
+    responsibility per module, type, and function, encapsulation at the
+    module instead of one file per type, and the stack (`tokio`, `axum`,
+    `tonic`, `tokio-postgres`, Tauri, Dioxus, `validations_rs` 0.3).
 *   The fork stays easy to rebase on upstream: Rust content lives in new files,
     and edits to upstream files are small.
 *   A developer new to Rust can onboard from this repository alone: install

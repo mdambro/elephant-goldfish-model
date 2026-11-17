@@ -1,9 +1,11 @@
-use application::ports::{RepoFuture, UserRepository};
+//! PostgreSQL adapter (tokio-postgres with deadpool-postgres): implements the application's ports.
+
+use std::fmt::Display;
+
+use application::ports::{RepoFuture, RepositoryError, UserRepository};
 use deadpool_postgres::Pool;
 use domain::entities::User;
 use domain::value_objects::{Email, UserId};
-
-use super::storage_error::storage_error;
 
 /// `UserRepository` backed by PostgreSQL through a connection pool.
 pub struct PgUserRepository {
@@ -49,4 +51,9 @@ impl UserRepository for PgUserRepository {
             Ok(())
         })
     }
+}
+
+/// Converts any storage failure into the port's error, without leaking storage types.
+fn storage_error(error: impl Display) -> RepositoryError {
+    RepositoryError(error.to_string())
 }

@@ -1,14 +1,12 @@
+//! gRPC adapter (tonic): translates protobuf messages to the use cases and back.
+
 use std::sync::Arc;
 
-use application::commands::RegisterUserCommand;
-use application::use_cases::RegisterUserUseCase;
+use application::register_user::{RegisterUserCommand, RegisterUserError, RegisterUserUseCase};
 use proto::users::v1::user_service_server::UserService;
 use proto::users::v1::{RegisterUserRequest, RegisterUserResponse};
 use tonic::{Request, Response, Status};
 
-use super::status_mapping::status_from;
-
-/// gRPC adapter: translates protobuf messages to the use case and back.
 pub struct GrpcUserService {
     register_user: Arc<RegisterUserUseCase>,
 }
@@ -31,5 +29,16 @@ impl UserService for GrpcUserService {
 
         let user = self.register_user.execute(command).await.map_err(status_from)?;
         Ok(Response::new(RegisterUserResponse { id: user.id.0, email: user.email.as_str().to_string() }))
+    }
+}
+
+/// gRPC translation of application errors. A function, not `From`: both types are foreign
+/// to this crate, so the orphan rule forbids `impl From<RegisterUserError> for Status` here.
+fn status_from(error: RegisterUserError) -> Status {
+    match error {
+        RegisterUserError::InvalidInput(e) => Status::invalid_argument(e.to_string()),
+        RegisterUserError::BusinessRule(violation) => Status::failed_precondition(violation.to_string()),
+        RegisterUserError::RuleCheckFailed(_) => Status::unavailable("a business rule could not be checked"),
+        RegisterUserError::Repository(_) => Status::internal("internal error"),
     }
 }

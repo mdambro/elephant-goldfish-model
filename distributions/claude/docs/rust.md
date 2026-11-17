@@ -22,14 +22,16 @@ design may change them, but it must say why.
     `infrastructure` crates, plus a `proto` crate when the service uses gRPC
     instead of (or next to) REST, and one crate per Tauri or Dioxus frontend.
     Dependencies point inward.
-*   **Single responsibility**: one struct per use case with one `execute`
-    method, one struct per validation rule, one repository trait per
-    aggregate, adapters that only translate.
+*   **Single responsibility**: one module per use case (its command, error,
+    rules, and a struct with one `execute` method), business rules as
+    functions, one repository trait per aggregate, adapters that only
+    translate. Files follow modules, not types: no one-file-per-type layouts.
 *   **Stack**: `tokio`, `axum` 0.8, `tonic` 0.14 with `prost`,
     `tokio-postgres` with `deadpool-postgres`, Tauri 2, Dioxus 0.7,
     `thiserror` (and `anyhow` only in `main`).
 *   **Validation**: domain newtypes for format invariants; `validations_rs`
-    rules in `application` for business rules.
+    0.3 rules in `application` for business rules (functions with `ensure`,
+    catalog rules with `on`, `AsyncRule` for I/O).
 
 The full rules are in Sections 5 and 6 of the
 [Rust Standard](../resources/document_standards/rust-standard.md).
@@ -71,8 +73,10 @@ implementation agent:
   validations_rs rules), crates/infrastructure (axum or tonic adapters,
   tokio-postgres repositories, main), crates/proto (only with gRPC).
   Dependencies point inward only; prost types never leave infrastructure.
-- One responsibility per type: one use case struct with one `execute`, one
-  validation rule per struct, one file per public type.
+- One responsibility per module: a use case module holds its command, error,
+  rules, and one use case struct with `execute`; business rules are functions
+  (validations_rs `ensure`), types only when they hold state. No file per
+  type, no re-export-only mod.rs.
 - Errors: thiserror enums per crate; anyhow only in main.
 - Async: tokio; ports are traits with Send + Sync.
 - Database: tokio-postgres + deadpool-postgres; $1 parameters only.
